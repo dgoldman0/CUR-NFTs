@@ -38,8 +38,8 @@ Creation of new media is just as import as the curation of existing media.
 
 Some people have an unusual sensory condition where normal sensory input is processed as alternate senses. For instance, some people experience "hearing colors." Synesthetic AI is a project which will allow for conversion of media from one type to another.
 
-Audio <-> Text
-Text <-> Image
-Image <-> Audio
+- Audio <-> Text
+- Text <-> Image
+- Image <-> Audio
 
 ## Language
