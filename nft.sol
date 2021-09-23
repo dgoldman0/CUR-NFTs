@@ -10,19 +10,63 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 
-contract CURNFT is ERC721Full {
+contract Owned {
+  address public owner;
+  address public oldOwner;
+  uint public tokenId = 1002567;
+  uint lastChangedOwnerAt;
+  constructor() {
+    owner = msg.sender;
+    oldOwner = owner;
+  }
+  modifier isOwner() {
+    require(msg.sender == owner);
+    _;
+  }
+  modifier isOldOwner() {
+    require(msg.sender == oldOwner);
+    _;
+  }
+  modifier sameOwner() {
+    address addr = msg.sender;
+    // Ensure that the address is a contract
+    uint size;
+    assembly { size := extcodesize(addr) }
+    require(size > 0);
+
+    // Ensure that the contract's parent is
+    Owned own = Owned(addr);
+    require(own.owner() == owner);
+     _;
+  }
+  // Be careful with this option!
+  function changeOwner(address newOwner) public isOwner {
+    lastChangedOwnerAt = now;
+    oldOwner = owner;
+    owner = newOwner;
+  }
+  // Allow a revert to old owner ONLY IF it has been less than a day
+  function revertOwner() public isOldOwner {
+    require(oldOwner != owner);
+    require((now - lastChangedOwnerAt) * 1 seconds < 86400);
+    owner = oldOwner;
+  }
+}
+
+contract CURNFT is ERC721Full, Owned {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     address curContract;
 
     uint private totalBacking; // Total amount put into backing NFTs
 
+    mapping (address => bool) private superAllowed; // If true for address then that address can back the NFT without causing an increased lockout
+
     // Should this be wrapped in a struct?
     mapping (uint => uint) private backing;
     mapping (uint => uint) private createdAt;
     mapping (uint => uint) private lockedUntil;
     mapping (uint => mapping (address => bool)) private backingAllowed;
-
     event NFTBacked(address indexed _backer, uint indexed _tokenId, uint _amt);
     event Liquidate(address indexed _burner, uint indexed _tokenId, uint _amt);
 
@@ -102,13 +146,11 @@ contract CURNFT is ERC721Full {
      */
     function backNFT(uint tokenId, uint amt) public returns (uint) {
       require(ownerOf(tokenId) != address(0), "This token either does not yet exist or has been burned.");
-      require(ownerOf(tokenId) == msg.sender || backingAllowed[tokenId][msg.sender], "Only the current NFT owner or authorized addresses can increase backing.");
+      require(ownerOf(tokenId) == msg.sender || backingAllowed[tokenId][msg.sender] || superAllowed[msg.sender], "Only the current NFT owner or authorized addresses can increase backing.");
       require(amt > 0, "Why are you backing with zero?!");
 
       uint old_backing = backing[tokenId];
       uint new_backing = old_backing + amt;
-
-      require(curContract.balanceOf(msg.sender) > amt);
 
       uint balance = curContract.balanceOf(msg.sender);
       require(balance >= amt, "Insufficient CUR to back NFT.");
@@ -130,16 +172,49 @@ contract CURNFT is ERC721Full {
     }
 
     // Similar to backNFT, but doesn't increase lockout time. Limited access for obvious reasons. Used by Project Curate to give out bonuses, awards, etc.
-    function systemBackNFT() {
+    function systemBackNFT(uint256 tokenId, uint256 amt) public {
+      require(isSuperAllowed[msg.sender], "Not authorized, please use backNFT operation instead.");
 
+      uint balance = curContract.balanceOf(msg.sender);
+      require(balance >= amt, "Insufficient CUR to back NFT.");
+
+      uint allowance = curContract.allowance(msg.sender, address(this));
+      require(allowance >= amt, "Not enough tokens approved prior to minting");
+      curContract.transferFrom(msg.sender, address(this), amt);
+
+      backing[tokenId] = backing[tokenId] + amt;
+      totalBacking += amt;
     }
 
-    function authorizeBacker() {
-
+    function allowSuper(address addr) public isOwner {
+      superAllowed[addr] = true;
     }
 
-    function removeBacker() {
+    function disallowSuper(address addr) public isOwner {
+      superAllowed[addr] = false;
+    }
 
+    // Returns the amount of CUR that the user would receive if they burned the NFT.
+    function burnValue(uint256 tokenId) public view returns (uint256 amt) {
+      uint backed = backing[tokenId];
+      uint total = totalBacking;
+      backing[tokenId] = 0;
+
+      address t_owner = ownerOf(tokenId);
+
+      // Need to replace this section with a _willReceive function which will calculate how much a user will receive on burn.
+      uint bal = curContract.balanceOf(address(this));
+      uint lo_len = lockedUntil[tokenId] - createdAt[tokenId];
+
+      // Calculate multiplier based on how much time the NFT was locked
+      uint t_mult = lo_len / 500 days;
+      if (t_mult < 0.2) t_mult = 0.2;
+      if (t_mult > 5) t_mult = 5;
+      uint mult = bal / total;
+
+      uint will_receive = backed * mult * t_mult;
+      if (will_receive < backed) will_receive = backed; // No matter the multiplier, make sure the person gets at least what is staked.
+      return will_recieve;
     }
 
     /**
