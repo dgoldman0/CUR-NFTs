@@ -30,6 +30,15 @@ Backing a media NFT with hundreds of thousands of dollars may be possible for ce
 
 The minimum lockout times for staking, as well as penalties for short lockout periods and bonuses for long lockout periods reduce the risk of abusing the system, such as creating cheap NFTs to pull resources from the system through the multiplier effect.
 
+### Advanced Statistics
+
+CUR-NFT advance statistics will make it easier to appraise the value of an art piece. Statistics will include
+- Mean and median, as well as the standard deviation and skew for
+ - Backing across all NFTs
+ - Age of all unburned NFTs
+
+1.  All statistics will be updated once per hour
+
 ## Media Creation
 
 Creation of new media is just as import as the curation of existing media.
@@ -42,4 +51,9 @@ Some people have an unusual sensory condition where normal sensory input is proc
 - Text <-> Image
 - Image <-> Audio
 
-## Language
+## Uses for CUR Token
+
+### Art Supply and Services Market
+
+
+## Language Learning

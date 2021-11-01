@@ -2,13 +2,13 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
-import "@openzeppelin/contracts/drafts/Counters.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "ERC721Full.sol";
+import "Counters.sol";
+import "SafeMath.sol";
 
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/utils/Address.sol";
+import "SafeERC20.sol";
+import "Strings.sol";
+import "Address.sol";
 
 contract Owned {
   address public owner;
@@ -143,6 +143,9 @@ contract CURNFT is ERC721Full, Owned {
      * @dev Adds more CUR to back the NFT
      * @param tokenId uint256 id of the ERC721 token to be backed.
      * @param amt uint256 amt of CUR to give.
+     *
+     * This backing system is nice and simple. However, it could be really nice to have a rolling system where each individual backing slowly reaches maturity.
+     * - If we go that route, it would probably be best to move the backing system to a separate contract.
      */
     function backNFT(uint tokenId, uint amt) public returns (uint) {
       require(ownerOf(tokenId) != address(0), "This token either does not yet exist or has been burned.");
