@@ -145,7 +145,7 @@ contract CURNFT is ERC721Full, Owned {
      * @param amt uint256 amt of CUR to give.
      *
      * This backing system is nice and simple. However, it could be really nice to have a rolling system where each individual backing slowly reaches maturity.
-     * - If we go that route, it would probably be best to move the backing system to a separate contract.
+     * It would require a heavy rewrite as instead of a single backing, I would probably need a linked list of <backing_amount, date_backed>
      */
     function backNFT(uint tokenId, uint amt) public returns (uint) {
       require(ownerOf(tokenId) != address(0), "This token either does not yet exist or has been burned.");
