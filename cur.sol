@@ -1,7 +1,10 @@
+// Built in Safe Math wrapper makes things a lot easier, so I'll be sticking with 0.8+
 pragma solidity ^0.8.0;
 
 /* Base token contract for the forgable tokens and also the Arcadium Token */
 
+// Used to handle controlling the contract. The owner can be any address, including another smart contract
+// Eventually it would be a good idea to switch the owner to a governance contract, which interfaces with Titles
 contract Owned {
   address public owner;
   address public oldOwner;
