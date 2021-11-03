@@ -116,7 +116,7 @@ contract CURNFT is ERC721Full, Owned {
 
     function createNFT(uint cur, uint lockout_time, string memory tokenURI) public returns (uint256) {
         require(curContract != address(0), "Token address has not yet been set!");
-        require(cur > minimum_mint, "Some CUR must be used to back NFT.");
+        require(cur >= minimum_mint || msg.sender == owner, "Some CUR must be used to back NFT.");
         require(lockout_time > 30 days , "Minimum lockout is 30 days.");
 
         uint balance = curContract.balanceOf(msg.sender);
