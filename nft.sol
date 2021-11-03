@@ -58,6 +58,8 @@ contract CURNFT is ERC721Full, Owned {
     Counters.Counter private _tokenIds;
     address curContract;
 
+    uint minimum_mint = 0; // Not fully implemented but will be used to adjust the minimum amount needed to mint an NFT
+
     uint private totalBacking; // Total amount put into backing NFTs
 
     mapping (address => bool) private superAllowed; // If true for address then that address can back the NFT without causing an increased lockout
@@ -66,6 +68,7 @@ contract CURNFT is ERC721Full, Owned {
     mapping (uint => uint) private backing;
     mapping (uint => uint) private createdAt;
     mapping (uint => uint) private lockedUntil;
+    mapping (uint => address) nft_issuer; // The address of the person who called the mint function
     mapping (uint => mapping (address => bool)) private backingAllowed;
     event NFTBacked(address indexed _backer, uint indexed _tokenId, uint _amt);
     event Liquidate(address indexed _burner, uint indexed _tokenId, uint _amt);
@@ -113,7 +116,7 @@ contract CURNFT is ERC721Full, Owned {
 
     function createNFT(uint cur, uint lockout_time, string memory tokenURI) public returns (uint256) {
         require(curContract != address(0), "Token address has not yet been set!");
-        require(cur > 0, "Some CUR must be used to back NFT.");
+        require(cur > minimum_mint, "Some CUR must be used to back NFT.");
         require(lockout_time > 30 days , "Minimum lockout is 30 days.");
 
         uint balance = curContract.balanceOf(msg.sender);
@@ -135,6 +138,7 @@ contract CURNFT is ERC721Full, Owned {
 
         createdAt[newItemId] = created_at;
         lockedUntil[newItemId] = created_at + lockout_time;
+        nft_issuer[newItemId] = msg.sender;
 
         return newItemId;
     }
