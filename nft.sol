@@ -202,6 +202,7 @@ contract CURNFT is ERC721Full, Owned {
     }
 
     // Returns the amount of CUR that the user would receive if they burned the NFT.
+    // When single backing is rewritten to allow for a linked list of multiple backings, burnValue will traverse the list to calculate the total burn value
     function burnValue(uint256 tokenId) public view returns (uint256 amt) {
       uint backed = backing[tokenId];
       uint total = totalBacking;
