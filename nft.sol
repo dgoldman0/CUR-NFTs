@@ -70,8 +70,9 @@ contract CURNFT is ERC721Full, Owned {
     mapping (uint => uint) private lockedUntil;
     mapping (uint => address) nft_issuer; // The address of the person who called the mint function
     mapping (uint => mapping (address => bool)) private backingAllowed;
-    event NFTBacked(address indexed _backer, uint indexed _tokenId, uint _amt);
+    event NFTBacker(address indexed _backer, uint indexed _tokenId, uint _amt);
     event Liquidate(address indexed _burner, uint indexed _tokenId, uint _amt);
+    event Burn(address indexed _burner, uint indexed _tokenId, uint _amt);
 
     constructor(address addr) ERC721Full("CURNFT", "CUR") public {
       curContract = addr;
@@ -175,7 +176,7 @@ contract CURNFT is ERC721Full, Owned {
       backing[tokenId] = new_backing;
       totalBacking += amt;
 
-      emit NFTBacked(msg.sender, tokenId, amt);
+      emit NFTBacker(msg.sender, tokenId, amt);
     }
 
     // Similar to backNFT, but doesn't increase lockout time. Limited access for obvious reasons. Used by Project Curate to give out bonuses, awards, etc.
@@ -259,6 +260,12 @@ contract CURNFT is ERC721Full, Owned {
         totalBacking -= backed;
 
         curContract.transfer(t_owner, will_receive);
-        emit Liquidate(msg.sender, tokenId, will_receive);
+        emit Burn(msg.sender, tokenId, will_receive);
     }
+
+    /* @dev Liquidates an NFT
+    * Like burn, but allows the original NFT to be preserved. Because the NFT is being preserved, there's a 20% penalty.
+    * @param tokenId uint256 id of the ERC721 token to be burned.
+    */
+
 }
