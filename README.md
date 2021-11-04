@@ -55,5 +55,10 @@ Some people have an unusual sensory condition where normal sensory input is proc
 
 ### Art Supply and Services Market
 
+World Builder focuses on creating assets that have significant real world value. We do so by networking with partners to create uses for our crypoassets, turning them into true forms of money. Because CUR is focused on the topic of art and curation of information, we will be networking with services that sell art related supplies, print on demand services, content preservation services, and more.
+
+### NFT Secured Loans
+
+Phase II of Project Curate will include the ability to borrow against NFTs, based on their current burn value. CUR can also be used to repay these loans, for a reduced interest rate.
 
 ## Language Learning
