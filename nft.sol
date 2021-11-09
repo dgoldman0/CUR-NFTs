@@ -53,6 +53,15 @@ contract Owned {
   }
 }
 
+
+// Considering changing to ERC1155 standard with an ERC-20 fungible token associated with each NFT to create a fractional NFT system.
+// Then we could have the burn/redeem feature generate an "available balance" and use ERC-20 tokens to redeem. Easy for burn, but if I include the redeem feature
+// then it becomes much harder to figure out how much each ERC-20 token should yield.
+// I would also need to figure out how many tokens are given for each NFT, who has control over it, etc. Most likely it'll have an "ownerMint" feature.
+
+// Another idea along these lines is that tokens are generated when CUR is added. I don't like this approach quite as much, but maybe it's an option.
+// I suppose it could always be set up to give the NFT creator the option of creating one or the other.
+// One thing is if I do it this way, the owner should not be able to mint more tokens right before they burn, otherwise they could do a rug pull.
 contract CURNFT is ERC721Full, Owned {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -70,6 +79,8 @@ contract CURNFT is ERC721Full, Owned {
     mapping (uint => uint) private lockedUntil;
     mapping (uint => address) nft_issuer; // The address of the person who called the mint function
     mapping (uint => mapping (address => bool)) private backingAllowed;
+    // Might want to add MIME type into the NFT info
+    
     event NFTBacker(address indexed _backer, uint indexed _tokenId, uint _amt);
     event Liquidate(address indexed _burner, uint indexed _tokenId, uint _amt);
     event Burn(address indexed _burner, uint indexed _tokenId, uint _amt);
@@ -267,5 +278,8 @@ contract CURNFT is ERC721Full, Owned {
     * Like burn, but allows the original NFT to be preserved. Because the NFT is being preserved, there's a 20% penalty.
     * @param tokenId uint256 id of the ERC721 token to be burned.
     */
+    function redeem(uint256 tokenId) {
+
+    }
 
 }
