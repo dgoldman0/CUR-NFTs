@@ -80,7 +80,7 @@ contract CURNFT is ERC721Full, Owned {
     mapping (uint => address) nft_issuer; // The address of the person who called the mint function
     mapping (uint => mapping (address => bool)) private backingAllowed;
     // Might want to add MIME type into the NFT info
-    
+
     event NFTBacker(address indexed _backer, uint indexed _tokenId, uint _amt);
     event Liquidate(address indexed _burner, uint indexed _tokenId, uint _amt);
     event Burn(address indexed _burner, uint indexed _tokenId, uint _amt);

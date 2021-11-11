@@ -30,6 +30,10 @@ Backing a media NFT with hundreds of thousands of dollars may be possible for ce
 
 The minimum lockout times for staking, as well as penalties for short lockout periods and bonuses for long lockout periods reduce the risk of abusing the system, such as creating cheap NFTs to pull resources from the system through the multiplier effect.
 
+### Fractional Ownership
+
+NFTs are undergoing a transformation. Thanks to newer token standards, an NFT can now have its own associated tokens. These tokens can be used to represent fractional ownership or control. The NFT holder can issue more tokens and distribute them as they please. To give function to these tokens, the NFT contract will utilize the tokens as part of the economic system as described in section on loans. 
+
 ### Advanced Statistics
 
 CUR-NFT advance statistics will make it easier to appraise the value of an art piece. Statistics will include
@@ -59,6 +63,6 @@ World Builder focuses on creating assets that have significant real world value.
 
 ### NFT Secured Loans
 
-Phase II of Project Curate will include the ability to borrow against NFTs, based on their current burn value. CUR can also be used to repay these loans, for a reduced interest rate.
+CUR loans are built right into the NFT contract. Because the NFT is backed with CUR, it can be borrowed against, rather than simply taken through burning. Once a loan is taken however, the user cannot transfer the NFT, burn it, or issue more fractions until the loan is paid back. There is no interest on these loans, and instead 20% of the amount being borrowed is transferred to the fraction holders. When the user pays back the loan, the NFT lockout will be released.
 
 ## Language Learning
