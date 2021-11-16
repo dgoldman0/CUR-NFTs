@@ -32,7 +32,7 @@ The minimum lockout times for staking, as well as penalties for short lockout pe
 
 ### Fractional Ownership
 
-NFTs are undergoing a transformation. Thanks to newer token standards, an NFT can now have its own associated tokens. These tokens can be used to represent fractional ownership or control. The NFT holder can issue more tokens and distribute them as they please. To give function to these tokens, the NFT contract will utilize the tokens as part of the economic system as described in section on loans.
+NFTs are undergoing a transformation. Thanks to newer token standards, an NFT can now have its own associated tokens. These tokens can be used to represent fractional ownership or control. The NFT holder can issue more tokens and distribute them as they please. To give function to these tokens, the NFT contract will utilize the tokens as part of the economic system as described in section on loans. ***For projects that require a fixed token supply, an initial mint followed by no more allowed minting is also an option.***
 
 ### Advanced Statistics
 
@@ -65,6 +65,10 @@ World Builder focuses on creating assets that have significant real world value.
 
 CUR loans are built right into the NFT contract. Because the NFT is backed with CUR, it can be borrowed against, rather than simply taken through burning. Once a loan is taken however, the user cannot transfer the NFT, burn it, or issue more fractions until the loan is paid back. There is no interest on these loans, and instead 20% of the amount being borrowed is transferred to the fraction holders. When the user pays back the loan, the NFT lockout will be released.
 
+### Artist Profiles & Licensing
+
+One issue with NFTs is licensing and copyright. First and foremost, **CUR NFT will never support the unauthorized use of media in the creation of NFTs.** We also want to make it easier to show authorization. The exact details are still being worked out by the team. And this section will be expanded in time.
+
 ## Language Learning
 
-Humans have an amazing capacity to communicate. Language is like no other form of communication. And there are so many languages across the world. Sadly, many of these languages are dying, as people stop using them. Universal communication is important, but in many cases languages capture the culture of the people who use them, and to lose a language is to lose a part of ourselves. Preservation of knowledge and art is a core mission for us, and so we want to leverage CUR to help support people who are interested in learning and preserving languages. 
+Humans have an amazing capacity to communicate. Language is like no other form of communication. And there are so many languages across the world. Sadly, many of these languages are dying, as people stop using them. Universal communication is important, but in many cases languages capture the culture of the people who use them, and to lose a language is to lose a part of ourselves. Preservation of knowledge and art is a core mission for us, and so we want to leverage CUR to help support people who are interested in learning and preserving languages.

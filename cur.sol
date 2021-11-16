@@ -5,6 +5,8 @@ pragma solidity ^0.8.0;
 
 // Used to handle controlling the contract. The owner can be any address, including another smart contract
 // Eventually it would be a good idea to switch the owner to a governance contract, which interfaces with Titles
+// Alternatively the owner can just use a setGovernance feature? But it can't be changed often or we'd have a problem.
+
 contract Owned {
   address public owner;
   address public oldOwner;
@@ -244,7 +246,7 @@ contract CURToken is ForgableToken {
   }
   // Allow's the change of the address to which frozen tokens go. Can only be done if sendTo is the default or within the first week after it's changed
   function changeSendTo(address newAddr) public isOwner {
-    require(sendTo == owner || (now - setAt) < 604800);
+    require(sendTo == owner || (now - setAt) < 604800); // Add || sendTo == TMPxbVA2Lb6tMBQfffMPSoNtSJLKnhFhwE in case I want to upgrade the faucet at some point
     setAt = now;
     sendTo = newAddr;
   }
@@ -270,7 +272,7 @@ contract CURToken is ForgableToken {
 
   uint256 public smithCount;
   uint256 public smithFee = 10000000;
-  uint256 public baseConversionRate = 1; // 1 WRLD = 1 ARC
+  uint256 public baseConversionRate = 1; // 1 WRLD = 1 CUR
   uint256 public totalWRLD; // Total amount of world used to mint
   uint256 public firstMint; // Date of the first minting
   uint256 public lastMint; // Date of most recent minting
