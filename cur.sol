@@ -38,59 +38,42 @@ contract Owned {
   }
   // Be careful with this option!
   function changeOwner(address newOwner) public isOwner {
-    lastChangedOwnerAt = now;
+    lastChangedOwnerAt = block.timestamp;
     oldOwner = owner;
     owner = newOwner;
   }
   // Allow a revert to old owner ONLY IF it has been less than a day
   function revertOwner() public isOldOwner {
     require(oldOwner != owner);
-    require((now - lastChangedOwnerAt) * 1 seconds < 86400);
+    require((block.timestamp - lastChangedOwnerAt) * 1 seconds < 86400);
     owner = oldOwner;
   }
 }
 
-contract ForgableToken is Owned {
-/// @return total amount of tokens
-  function totalSupply() public view returns (uint256 supply) {}
-  /// @param _owner The address from which the balance will be retrieved
-  /// @return The balance
-  function balanceOf(address _owner) public view returns (uint256 balance) {}
-  /// @notice send `_value` token to `_to` from `msg.sender`
-  /// @param _to The address of the recipient
-  /// @param _value The amount of token to be transferred
-  /// @return Whether the transfer was successful or not
-  function transfer(address _to, uint256 _value) returns (bool success) {}
-  /// @notice send `_value` token to `_to` from `_from` on the condition it is approved by `_from`
-  /// @param _from The address of the sender
-  /// @param _to The address of the recipient
-  /// @param _value The amount of token to be transferred
-  /// @return Whether the transfer was successful or not
-  function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {}
-  /// @notice `msg.sender` approves `_addr` to spend `_value` tokens
-  /// @param _spender The address of the account able to transfer the tokens
-  /// @param _value The amount of wei to be approved for transfer
-  /// @return Whether the approval was successful or not
-  function approve(address _spender, uint256 _value) returns (bool success) {}
-  /// @param _owner The address of the account owning tokens
-  /// @param _spender The address of the account able to transfer the tokens
-  /// @return Amount of remaining tokens allowed to spent
-  function allowance(address _owner, address _spender) public view returns (uint256 remaining) {}
-  /// @return Whether the forging was successful or not
+ contract ForgableToken is Owned {
 
-  // Forge specific properties that need to be included in the contract
-  function forge() external payable returns (bool success) {}
-  function maxForge() public view returns (uint256 amount) {}
-  function baseConversionRate() public view returns (uint256 best_price) {}
-  function timeToForge(address addr) public view returns (uint256 time) {}
-  function forgePrice() public view returns (uint256 price) {}
-  function smithCount() public view returns (uint256 count) {}
-  function smithFee() public view returns (uint256 fee) {}
-  function canSmith() public view returns (bool able) {}
-  function totalWRLD() public view returns (uint256 wrld) {}
-  function firstMint() public view returns (uint256 date) {}
-  function lastMint() public view returns (uint256 date) {}
-  function paySmithingFee() external payable returns (bool fee) {}
+  //function totalSupply() public view virtual returns (uint256 supply) {}
+  function balanceOf(address _owner) public view virtual returns (uint256 balance) {}
+  function transfer(address _to, uint256 _value) public virtual returns (bool success) {}
+
+  function transferFrom(address _from, address _to, uint256 _value) public virtual returns (bool success) {}
+
+  function approve(address _spender, uint256 _value) public virtual returns (bool success) {}
+
+  function allowance(address _owner, address _spender) public view virtual returns (uint256 remaining) {}
+
+  function forge() external payable virtual returns (bool success) {}
+  function maxForge() public view virtual returns (uint256 amount) {}
+  //function baseConversionRate() public view virtual returns (uint256 best_price) {}
+  function timeToForge(address addr) public view virtual returns (uint256 time) {}
+  function forgePrice() public view virtual returns (uint256 price) {}
+  //function smithCount() public virtual view returns (uint256 count) {}
+  //function smithFee() public view virtual returns (uint256 fee) {}
+  function canSmith() public view virtual returns (bool able) {}
+  //function totalWRLD() public view virtual returns (uint256 wrld) {}
+ // function firstMint() public view virtual returns (uint256 date) {}
+  //function lastMint() public view virtual returns (uint256 date) {}
+  function paySmithingFee() external payable virtual returns (bool fee) {}
 
   event Transfer(address indexed _from, address indexed _to, uint256 _value);
   event Approval(address indexed _owner, address indexed _spender, uint256 _value);
@@ -109,7 +92,7 @@ contract CURToken is ForgableToken {
     decimals = 6;
     sendTo = msg.sender;
     emit Forged(msg.sender, 0, totalSupply);
-    emit Transfer(this, msg.sender, totalSupply);
+    emit Transfer(address(this), msg.sender, totalSupply);
     balances[msg.sender] = totalSupply;
   }
 
@@ -120,7 +103,7 @@ contract CURToken is ForgableToken {
     return true;
   }
 
-  function transfer(address _to, uint256 _value) returns (bool success) {
+  function transfer(address _to, uint256 _value) public override returns (bool success) {
       if (balances[msg.sender] >= _value && _value > 0) {
           balances[msg.sender] -= _value;
           balances[_to] += _value;
@@ -129,7 +112,7 @@ contract CURToken is ForgableToken {
       } else { return false; }
   }
 
-  function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {
+  function transferFrom(address _from, address _to, uint256 _value) public override returns (bool success) {
       if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0) {
           balances[_to] += _value;
           balances[_from] -= _value;
@@ -139,17 +122,17 @@ contract CURToken is ForgableToken {
       } else { return false; }
   }
 
-  function balanceOf(address _owner) public view returns (uint256 balance) {
+  function balanceOf(address _owner) public view override returns (uint256 balance) {
       return balances[_owner];
   }
 
-  function approve(address _spender, uint256 _value) returns (bool success) {
+  function approve(address _spender, uint256 _value) public override returns (bool success) {
       allowed[msg.sender][_spender] = _value;
       emit Approval(msg.sender, _spender, _value);
       return true;
   }
 
-  function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
+  function allowance(address _owner, address _spender) public view override returns (uint256 remaining) {
     return allowed[_owner][_spender];
   }
 
@@ -162,21 +145,21 @@ contract CURToken is ForgableToken {
 
   /* This is where all the special operations will occur */
   // Returns the maximum amount of WRLD that can be sent to mint new tokens
-  function maxForge() public view returns (uint256) {
+  function maxForge() public view override returns (uint256) {
     if (totalWRLD / 1000 < 100000000000) return 100000000000;
     return totalWRLD / 1000;
   }
 
   // Returns the number of seconds until the user can mint tokens again
-  function timeToForge(address addr) public view returns (uint256) {
-    uint256 dif = (now - lastMinted[addr]);
+  function timeToForge(address addr) public view override returns (uint256) {
+    uint256 dif = (block.timestamp - lastMinted[addr]);
     if (dif > 3600) return 0;
     return 3600 - dif;
   }
 
   // Mints new tokens based on how many tokens have already been minted
   // Tempted to require a minting fee...
-  function forge() external payable returns (bool success) {
+  function forge() external payable override returns (bool success) {
     require(nftContract != address(0), "No NFT contract address set!");
     // Limit minting rate to the greater of 0.1% of the amount of WRLD frozen so far or 100,000 WRLD
     require(msg.tokenid == tokenId, "Wrong Token");
@@ -184,7 +167,7 @@ contract CURToken is ForgableToken {
     require(msg.sender == owner || paid[msg.sender], "Not a Registered Smith");
 
     // Only let a person mint once per hour
-    uint256 start = now;
+    uint256 start = block.timestamp;
     require(start - lastMinted[msg.sender] > 3600, "Too Soon to Forge Again");
 
     // Calculate the amount of token to be minted. Make sure that there's no chance of overflow!
@@ -241,7 +224,7 @@ contract CURToken is ForgableToken {
     return (baseConversionRate * conv) / 100;
   }
   // Price to mint one ARC token
-  function forgePrice() public view returns (uint256) {
+  function forgePrice() public view override returns (uint256) {
     return _calculateCost(now);
   }
   // Allow's the change of the address to which frozen tokens go. Can only be done if sendTo is the default or within the first week after it's changed
@@ -253,10 +236,10 @@ contract CURToken is ForgableToken {
   function canSmith(address addr) public view returns (bool) {
     return addr == owner || paid[msg.sender];
   }
-  function canSmith() public view returns (bool) {
+  function canSmith() public view override returns (bool) {
     return canSmith(msg.sender);
   }
-  function paySmithingFee() external payable returns (bool success) {
+  function paySmithingFee() external payable override returns (bool success) {
     if (paid[msg.sender] || msg.value != smithFee || msg.sender == owner) return false;
     owner.transfer(msg.value);
     // Every ten smiths increases the smith fee by 100 TRX
