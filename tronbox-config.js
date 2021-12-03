@@ -22,16 +22,15 @@ Then, run the migration with:
     },
     shasta: {
       privateKey: '34bbaec2190e433bdeb9c1fbd43edf4178382fc9c6783e8220d853ad1702ed97',
-      userFeePercentage: 50,
-      feeLimit: 1000,
+      userFeePercentage: 0,
+      feeLimit: 1000 * 1e6,
       fullHost: 'https://api.shasta.trongrid.io',
-      solidityNode: 'https://api.shasta.trongrid.io',
       network_id: '2'
     },
     nile: {
-      privateKey: process.env.PRIVATE_KEY_NILE,
+      privateKey: '34bbaec2190e433bdeb9c1fbd43edf4178382fc9c6783e8220d853ad1702ed97',
       userFeePercentage: 100,
-      feeLimit: 1000 * 1e6,
+      feeLimit: 100000,
       fullHost: 'https://api.nileex.io',
       network_id: '3'
     },
@@ -45,7 +44,7 @@ Then, run the migration with:
     },
     compilers: {
       solc: {
-        version: '0.8.6'
+        version: '0.5.10'
       }
     }
   },

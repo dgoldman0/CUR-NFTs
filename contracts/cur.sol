@@ -1,269 +1,229 @@
-// Built in Safe Math wrapper makes things a lot easier, so I'll be sticking with 0.8+
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-/* Base token contract for the forgable tokens and also the Arcadium Token */
+import "@openzeppelin/contracts/token/TRC721/TRC721.sol";
 
-// Used to handle controlling the contract. The owner can be any address, including another smart contract
-// Eventually it would be a good idea to switch the owner to a governance contract, which interfaces with Titles
-// Alternatively the owner can just use a setGovernance feature? But it can't be changed often or we'd have a problem.
+contract TRC721Token is TRC721, TRC721Enumerable, TRC721MetadataMintable, Ownable {
 
-contract Owned {
-  address public owner;
-  address public oldOwner;
-  uint public tokenId = 1002567;
-  uint lastChangedOwnerAt;
-  constructor() {
-    owner = msg.sender;
-    oldOwner = owner;
-  }
-  modifier isOwner() {
-    require(msg.sender == owner);
-    _;
-  }
-  modifier isOldOwner() {
-    require(msg.sender == oldOwner);
-    _;
-  }
-  modifier sameOwner() {
-    address addr = msg.sender;
-    // Ensure that the address is a contract
-    uint size;
-    assembly { size := extcodesize(addr) }
-    require(size > 0);
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
+    ITRC20 curContract;
 
-    // Ensure that the contract's parent is
-    Owned own = Owned(addr);
-    require(own.owner() == owner);
-     _;
-  }
-  // Be careful with this option!
-  function changeOwner(address newOwner) public isOwner {
-    lastChangedOwnerAt = block.timestamp;
-    oldOwner = owner;
-    owner = newOwner;
-  }
-  // Allow a revert to old owner ONLY IF it has been less than a day
-  function revertOwner() public isOldOwner {
-    require(oldOwner != owner);
-    require((block.timestamp - lastChangedOwnerAt) * 1 seconds < 86400);
-    owner = oldOwner;
-  }
-}
+    uint256 minimum_mint = 0; // Not fully implemented but will be used to adjust the minimum amount needed to mint an NFT
 
- contract ForgableToken is Owned {
+    uint256 private totalBacking; // Total amount put into backing NFTs
 
-  //function totalSupply() public view virtual returns (uint256 supply) {}
-  function balanceOf(address _owner) public view virtual returns (uint256 balance) {}
-  function transfer(address _to, uint256 _value) public virtual returns (bool success) {}
+    mapping (address => bool) private superAllowed; // If true for address then that address can back the NFT without causing an increased lockout
 
-  function transferFrom(address _from, address _to, uint256 _value) public virtual returns (bool success) {}
+    // Should this be wrapped in a struct?
+    mapping (uint256 => uint256) private backing;
+    mapping (uint256 => uint256) private createdAt;
+    mapping (uint256 => uint256) private lockedUntil;
+    mapping (uint256 => address) nft_issuer; // The address of the person who called the mint function
+    mapping (uint256 => mapping (address => bool)) private backingAllowed;
+    // Might want to add MIME type into the NFT info
 
-  function approve(address _spender, uint256 _value) public virtual returns (bool success) {}
+    event NFTBacker(address indexed _backer, uint256 indexed _tokenId, uint256 _amt);
+    event Liquidate(address indexed _burner, uint256 indexed _tokenId, uint256 _amt);
+    event Burn(address indexed _burner, uint256 indexed _tokenId, uint256 _amt);
 
-  function allowance(address _owner, address _spender) public view virtual returns (uint256 remaining) {}
+    constructor(ITRC20 addr) TRC721Metadata("CURNFT", "CUR") public {
+      curContract = addr;
+    }
 
-  function forge() external payable virtual returns (bool success) {}
-  function maxForge() public view virtual returns (uint256 amount) {}
-  //function baseConversionRate() public view virtual returns (uint256 best_price) {}
-  function timeToForge(address addr) public view virtual returns (uint256 time) {}
-  function forgePrice() public virtual returns (uint256 price) {}
-  //function smithCount() public virtual view returns (uint256 count) {}
-  //function smithFee() public view virtual returns (uint256 fee) {}
-  function canSmith() public view virtual returns (bool able) {}
-  //function totalWRLD() public view virtual returns (uint256 wrld) {}
- // function firstMint() public view virtual returns (uint256 date) {}
-  //function lastMint() public view virtual returns (uint256 date) {}
-  function paySmithingFee() external payable virtual returns (bool fee) {}
+    function getCreatedAt(uint256 tokenId) public view returns (uint256) {
+      return createdAt[tokenId];
+    }
 
-  event Transfer(address indexed _from, address indexed _to, uint256 _value);
-  event Approval(address indexed _owner, address indexed _spender, uint256 _value);
-  event Forged(address indexed _to, uint _cost, uint _amt);
-  event NewSmith(address indexed _address, uint _fee);
-}
+    function getLockedUntil(uint256 tokenId) public view returns (uint256) {
+      return lockedUntil[tokenId];
+    }
 
-// CUR Token
-contract CURToken is ForgableToken {
-  address public nftContract;
+    function getLockoutPeriod(uint256 tokenId) public view returns (uint256) {
+      return lockedUntil[tokenId] - createdAt[tokenId];
+    }
 
-  constructor() public {
-    totalSupply = 2000000000000;
-    name = "Project Curate Token";
-    symbol = "CUR";
-    decimals = 6;
-    sendTo = msg.sender;
-    emit Forged(msg.sender, 0, totalSupply);
-    emit Transfer(address(this), msg.sender, totalSupply);
-    balances[msg.sender] = totalSupply;
-  }
+    function timeUntilUnlocked(uint256 tokenId) public view returns (uint256) {
+      if (block.timestamp >= lockedUntil[tokenId]) return 0;
+      return lockedUntil[tokenId] - block.timestamp;
+    }
 
-  // Allows the owner to set the address for the NFT contract once.
-  function setNFTContract(address addr) public isOwner returns (bool success) {
-    require(nftContract == address(0), "Address already set.");
-    nftContract = addr;
-    return true;
-  }
+    function getBacking(uint256 tokenId) public view returns (uint256) {
+      return backing[tokenId];
+    }
 
-  function mintCurTokens() public returns(bool){
-    require(nftContract == msg.sender, "only NFT contract can call");
-    
-  }
+    function isBackingAllowed(uint256 tokenId, address addr) public view returns (bool) {
+      return backingAllowed[tokenId][addr];
+    }
 
-  function transfer(address _to, uint256 _value) public override returns (bool success) {
-      if (balances[msg.sender] >= _value && _value > 0) {
-          balances[msg.sender] -= _value;
-          balances[_to] += _value;
-          emit Transfer(msg.sender, _to, _value);
-          return true;
-      } else { return false; }
-  }
-
-  function transferFrom(address _from, address _to, uint256 _value) public override returns (bool success) {
-      if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0) {
-          balances[_to] += _value;
-          balances[_from] -= _value;
-          allowed[_from][msg.sender] -= _value;
-          emit Transfer(_from, _to, _value);
-          return true;
-      } else { return false; }
-  }
-
-  function balanceOf(address _owner) public view override returns (uint256 balance) {
-      return balances[_owner];
-  }
-
-  function approve(address _spender, uint256 _value) public override returns (bool success) {
-      allowed[msg.sender][_spender] = _value;
-      emit Approval(msg.sender, _spender, _value);
-      return true;
-  }
-
-  function allowance(address _owner, address _spender) public view override returns (uint256 remaining) {
-    return allowed[_owner][_spender];
-  }
-
-  mapping (address => uint256) balances;
-  mapping (address => mapping (address => uint256)) allowed;
-  uint256 public totalSupply;
-  string public name;
-  string public symbol;
-  uint8 public decimals;
-
-  /* This is where all the special operations will occur */
-  // Returns the maximum amount of WRLD that can be sent to mint new tokens
-  function maxForge() public view override returns (uint256) {
-    if (totalWRLD / 1000 < 100000000000) return 100000000000;
-    return totalWRLD / 1000;
-  }
-
-  // Returns the number of seconds until the user can mint tokens again
-  function timeToForge(address addr) public view override returns (uint256) {
-    uint256 dif = (block.timestamp - lastMinted[addr]);
-    if (dif > 3600) return 0;
-    return 3600 - dif;
-  }
-
-  // Mints new tokens based on how many tokens have already been minted
-  // Tempted to require a minting fee...
-  function forge() external payable override returns (bool success) {
-    require(nftContract != address(0), "No NFT contract address set!");
-    // Limit minting rate to the greater of 0.1% of the amount of WRLD frozen so far or 100,000 WRLD
-    require(msg.tokenid == tokenId, "Wrong Token");
-    require(msg.tokenvalue <= 100000000000 || msg.tokenvalue <= totalWRLD / 1000, "Maximum WRLD Exceeded");
-    require(msg.sender == owner || paid[msg.sender], "Not a Registered Smith");
-
-    // Only let a person mint once per hour
-    uint256 start = block.timestamp;
-    require(start - lastMinted[msg.sender] > 3600, "Too Soon to Forge Again");
-
-    // Calculate the amount of token to be minted. Make sure that there's no chance of overflow!
-    uint256 amt = msg.tokenvalue / _calculateCost(start);
-
-    // Freeze WRLD
-    payable(sendTo).transferToken(msg.tokenvalue, tokenId);
-
-    // Mint tokens
-    totalSupply = totalSupply + ((amt * 11)/10);
-    emit Forged(msg.sender, msg.tokenvalue, amt);
-
-    // Send them to the minter
-    balances[msg.sender] += amt;
-    balances[nftContract] = balances[nftContract] + (amt/10);
-    emit Transfer(address(this), msg.sender, amt);
-    emit Transfer(address(this), nftContract, (amt / 10));
-    lastMinted[msg.sender] = start;
-    if (firstMint == 0) firstMint = start;
-    lastMint = start;
-    totalWRLD += msg.tokenvalue;
-    return true;
-  }
-
-  // Base Minting
-  // While the forge system is open to everyone, and can be used to increase the supply at a cost of WRLD, a supply of tokens will be needed to distribute to our responders.
-  // This function will allow a cetain number of tokens to be minted to fund this effort.
-  uint256 public lastOwnerMint;
-  uint8 public remaining = 24; // Used to decrease the owner mint rate over time, allowing for an initially high rate to fund initial efforts.
-
-  function ownerMint() public isOwner returns (bool success) {
-    uint256 start = block.timestamp;
-    if (start - lastOwnerMint > 2592000) {
-      lastOwnerMint = start;
-      uint256 amt = (totalSupply * remaining) / 2400;
-      totalSupply += amt;
-      emit Forged(owner, 0, amt);
-      if (remaining > 1) remaining -= 1;
-      balances[owner] += amt;
-      emit Transfer(address(this), owner, amt);
+    function allowBacker(uint256 tokenId, address addr) public returns (bool) {
+      require(ownerOf(tokenId) == msg.sender, "Only the NFT owner can alter backers.");
+      backingAllowed[tokenId][addr] = true;
       return true;
     }
-    return false;
-  }
 
-  // Get the current conversion rate
-  function _calculateCost(uint256 _now) internal returns (uint256) {
-    if (firstMint == 0) return baseConversionRate;
-    uint256 time1 = (_now - firstMint);
-    uint256 time2 = (_now - lastMint);
-    uint256 conv = (time1 * 100) / (time2 * time2 * time2 + 1);
-    if (conv < 100) conv = 100; // Don't let people forge for free!
-    if (conv > 10000) conv = 10000;
-    return (baseConversionRate * conv) / 100;
-  }
-  // Price to mint one ARC token
-  function forgePrice() public override returns (uint256) {
-    return _calculateCost(block.timestamp);
-  }
-  // Allow's the change of the address to which frozen tokens go. Can only be done if sendTo is the default or within the first week after it's changed
-  function changeSendTo(address newAddr) public isOwner {
-    require(sendTo == owner || (block.timestamp - setAt) < 604800); // Add || sendTo == TMPxbVA2Lb6tMBQfffMPSoNtSJLKnhFhwE in case I want to upgrade the faucet at some point
-    setAt = block.timestamp;
-    sendTo = newAddr;
-  }
-  function canSmith(address addr) public view returns (bool) {
-    return addr == owner || paid[msg.sender];
-  }
-  function canSmith() public view override returns (bool) {
-    return canSmith(msg.sender);
-  }
-  function paySmithingFee() external payable override returns (bool success) {
-    if (paid[msg.sender] || msg.value != smithFee || msg.sender == owner) return false;
-    payable(owner).transfer(msg.value);
-    // Every ten smiths increases the smith fee by 100 TRX
-    if (smithFee < 1000000000 && (smithCount + 1) % 10 == 0) smithFee += 100000000;
-    smithCount++;
-    paid[msg.sender] = true;
-    emit NewSmith(msg.sender, msg.value);
-    return true;
-  }
+    function disallowBacker(uint256 tokenId, address addr) public returns (bool) {
+      require(ownerOf(tokenId) == msg.sender, "Only the NFT owner can alter backers.");
+      backingAllowed[tokenId][addr] = false;
+      return true;
+    }
 
-  mapping (address => uint256) public lastMinted;
-  mapping (address => bool) public paid;
+    function createNFT(uint256 cur, uint256 lockout_time, string memory tokenURI) public returns (uint256) {
+        require(curContract != ITRC20(address(0)), "Token address has not yet been set!");
+        require(cur >= minimum_mint || msg.sender == owner(), "Some CUR must be used to back NFT.");
+        require(lockout_time > 30 days , "Minimum lockout is 30 days.");
 
-  uint256 public smithCount;
-  uint256 public smithFee = 10000000;
-  uint256 public baseConversionRate = 1; // 1 WRLD = 1 CUR
-  uint256 public totalWRLD; // Total amount of world used to mint
-  uint256 public firstMint; // Date of the first minting
-  uint256 public lastMint; // Date of most recent minting
-  address public sendTo;
-  uint256 setAt;
+        uint256 balance = curContract.balanceOf(msg.sender);
+        require(balance >= cur, "Insufficient CUR to back NFT.");
+
+        uint256 allowance = curContract.allowance(msg.sender, address(this));
+        require(allowance >= cur, "Not enough tokens approved prior to minting");
+    		curContract.transferFrom(msg.sender, address(this), cur);
+
+        _tokenIds.increment();
+
+        uint256 newItemId = _tokenIds.current();
+        _mint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+
+        backing[newItemId] = cur;
+
+        uint256 created_at = block.timestamp;
+
+        createdAt[newItemId] = created_at;
+        lockedUntil[newItemId] = created_at + lockout_time;
+        nft_issuer[newItemId] = msg.sender;
+
+        return newItemId;
+    }
+
+    /**
+     * @dev Adds more CUR to back the NFT
+     * @param tokenId uint256 id of the ERC721 token to be backed.
+     * @param amt uint256 amt of CUR to give.
+     *
+     * This backing system is nice and simple. However, it could be really nice to have a rolling system where each individual backing slowly reaches maturity.
+     * It would require a heavy rewrite as instead of a single backing, I would probably need a linked list of <backing_amount, date_backed>
+     */
+    function backNFT(uint256 tokenId, uint256 amt) public returns (uint256) {
+      require(ownerOf(tokenId) != address(0), "This token either does not yet exist or has been burned.");
+      require(ownerOf(tokenId) == msg.sender || backingAllowed[tokenId][msg.sender] || superAllowed[msg.sender], "Only the current NFT owner or authorized addresses can increase backing.");
+      require(amt > 0, "Why are you backing with zero?!");
+
+      uint256 old_backing = backing[tokenId];
+      uint256 new_backing = old_backing + amt;
+
+      uint256 balance = curContract.balanceOf(msg.sender);
+      require(balance >= amt, "Insufficient CUR to back NFT.");
+
+      uint256 allowance = curContract.allowance(msg.sender, address(this));
+      require(allowance >= amt, "Not enough tokens approved prior to minting");
+      curContract.transferFrom(msg.sender, address(this), amt);
+
+      // Update lockout time
+      uint256 lo_len = lockedUntil[tokenId] - createdAt[tokenId];
+      uint256 add_time = lo_len * (new_backing/old_backing - 1);
+      if (add_time > 1000 days) add_time = 1000 days; // Prevent any amount from adding more than 1,000 additional days to lockout period.
+      lockedUntil[tokenId] = createdAt[tokenId] + lo_len + add_time;
+
+      backing[tokenId] = new_backing;
+      totalBacking += amt;
+
+      emit NFTBacker(msg.sender, tokenId, amt);
+    }
+
+    // Similar to backNFT, but doesn't increase lockout time. Limited access for obvious reasons. Used by Project Curate to give out bonuses, awards, etc.
+    function systemBackNFT(uint256 tokenId, uint256 amt) public {
+      require(superAllowed[msg.sender], "Not authorized, please use backNFT operation instead.");
+
+      uint256 balance = curContract.balanceOf(msg.sender);
+      require(balance >= amt, "Insufficient CUR to back NFT.");
+
+      uint256 allowance = curContract.allowance(msg.sender, address(this));
+      require(allowance >= amt, "Not enough tokens approved prior to minting");
+      curContract.transferFrom(msg.sender, address(this), amt);
+
+      backing[tokenId] = backing[tokenId] + amt;
+      totalBacking += amt;
+    }
+
+    function allowSuper(address addr) public onlyOwner {
+      superAllowed[addr] = true;
+    }
+
+    function disallowSuper(address addr) public onlyOwner {
+      superAllowed[addr] = false;
+    }
+
+
+    // Returns the amount of CUR that the user would receive if they burned the NFT.
+    // When single backing is rewritten to allow for a linked list of multiple backings, burnValue will traverse the list to calculate the total burn value
+    function burnValue(uint256 tokenId) public view returns (uint256 amt) {
+      uint256 backed = backing[tokenId];
+      uint256 total = totalBacking;
+      backing[tokenId] == 0;
+
+      address t_owner = ownerOf(tokenId);
+
+      // Need to replace this section with a _willReceive function which will calculate how much a user will receive on burn.
+      uint256 bal = curContract.balanceOf(address(this));
+      uint256 lo_len = lockedUntil[tokenId] - createdAt[tokenId];
+
+      // Calculate multiplier based on how much time the NFT was locked
+      uint256 t_mult = lo_len / 500 days;
+      if (t_mult < 2) t_mult = 2;
+      if (t_mult > 5) t_mult = 5;
+      uint256 mult = bal / total;
+
+      uint256 will_receive = backed * mult * t_mult;
+      if (will_receive < backed) will_receive = backed; // No matter the multiplier, make sure the person gets at least what is staked.
+      return will_receive;
+    }
+
+    /**
+     * @dev Burns a specific ERC721 token.
+     * @param tokenId uint256 id of the ERC721 token to be burned.
+     */
+    function burn(uint256 tokenId) public {
+        require(_isApprovedOrOwner(msg.sender, tokenId));
+        require(lockedUntil[tokenId] <= block.timestamp, "Lockout period has not ended.");
+
+        uint256 backed = backing[tokenId];
+        uint256 total = totalBacking;
+        backing[tokenId] = 0;
+
+        address t_owner = ownerOf(tokenId);
+        _burn(tokenId);
+
+        // Need to replace this section with a _willReceive function which will calculate how much a user will receive on burn.
+        uint256 bal = curContract.balanceOf(address(this));
+        uint256 lo_len = lockedUntil[tokenId] - createdAt[tokenId];
+
+        // Calculate multiplier based on how much time the NFT was locked
+        uint256 t_mult = lo_len / 500 days;
+        if (t_mult < 2) { t_mult = 2;}
+        if (t_mult > 5) { t_mult = 5; }
+        uint256 mult = bal / total;
+
+        uint256 will_receive = backed * mult * t_mult;
+        if (will_receive < backed) will_receive = backed; // No matter the multiplier, make sure the person gets at least what is staked.
+
+        // It shouldn't ever happen but if the contract doesn't have enough CUR, the system will revert.
+        require(bal >= will_receive, "Insufficient CUR in the contract!");
+
+        totalBacking -= backed;
+
+        curContract.transfer(t_owner, will_receive);
+        emit Burn(msg.sender, tokenId, will_receive);
+    }
+
+    /* @dev Liquidates an NFT
+    * Like burn, but allows the original NFT to be preserved. Because the NFT is being preserved, there's a 20% penalty.
+    * @param tokenId uint256 id of the ERC721 token to be burned.
+    */
+    function redeem(uint256 tokenId) public {
+
+    }
+
+
 }

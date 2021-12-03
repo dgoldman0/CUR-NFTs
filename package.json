@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.3.3",
+    "@ttcrypto/openzeppelin-tron-contracts": "^1.0.0",
     "tronweb": "^4.0.1"
   }
 }
