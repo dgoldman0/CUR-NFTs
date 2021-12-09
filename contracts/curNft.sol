@@ -2,6 +2,9 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/TRC721/TRC721.sol";
+import "@openzeppelin/contracts/token/TRC721/extensions/TRC721Enumerable.sol";
+import "./TRC721MetadataMintable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract TRC721Token is TRC721, TRC721Enumerable, TRC721MetadataMintable, Ownable {
 
