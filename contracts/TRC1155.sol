@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "./@openzeppelin/contracts/token/TRC1155/TRC1155.sol";
 import "./@openzeppelin/contracts/access/Ownable.sol";
 
-contract TRC1155Token is TRC721, Ownable {
+contract TRC1155Token is TRC1155, Ownable {
     uint256 tokenCounter;
     constructor() TRC1155(""){
         tokenCounter = 1;
