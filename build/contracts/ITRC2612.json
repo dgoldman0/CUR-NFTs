@@ -1,0 +1,235 @@
+{
+  "contractName": "ITRC2612",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "DOMAIN_SEPARATOR",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "nonces",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "v",
+          "type": "uint8"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "r",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "s",
+          "type": "bytes32"
+        }
+      ],
+      "name": "permit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\nimport \"../token/TRC20/extensions/draft-ITRC20Permit.sol\";\n\ninterface ITRC2612 is ITRC20Permit {}\n",
+  "sourcePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/interfaces/draft-ITRC2612.sol",
+  "ast": {
+    "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/interfaces/draft-ITRC2612.sol",
+    "exportedSymbols": {
+      "ITRC20Permit": [
+        10950
+      ],
+      "ITRC2612": [
+        5428
+      ]
+    },
+    "id": 5429,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5424,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:23:42"
+      },
+      {
+        "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC20/extensions/draft-ITRC20Permit.sol",
+        "file": "../token/TRC20/extensions/draft-ITRC20Permit.sol",
+        "id": 5425,
+        "nodeType": "ImportDirective",
+        "scope": 5429,
+        "sourceUnit": 10951,
+        "src": "58:58:42",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 5426,
+              "name": "ITRC20Permit",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 10950,
+              "src": "140:12:42"
+            },
+            "id": 5427,
+            "nodeType": "InheritanceSpecifier",
+            "src": "140:12:42"
+          }
+        ],
+        "contractDependencies": [
+          10950
+        ],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 5428,
+        "linearizedBaseContracts": [
+          5428,
+          10950
+        ],
+        "name": "ITRC2612",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 5429,
+        "src": "118:37:42"
+      }
+    ],
+    "src": "33:123:42"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/interfaces/draft-ITRC2612.sol",
+    "exportedSymbols": {
+      "ITRC20Permit": [
+        10950
+      ],
+      "ITRC2612": [
+        5428
+      ]
+    },
+    "id": 5429,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5424,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:23:42"
+      },
+      {
+        "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC20/extensions/draft-ITRC20Permit.sol",
+        "file": "../token/TRC20/extensions/draft-ITRC20Permit.sol",
+        "id": 5425,
+        "nodeType": "ImportDirective",
+        "scope": 5429,
+        "sourceUnit": 10951,
+        "src": "58:58:42",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 5426,
+              "name": "ITRC20Permit",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 10950,
+              "src": "140:12:42"
+            },
+            "id": 5427,
+            "nodeType": "InheritanceSpecifier",
+            "src": "140:12:42"
+          }
+        ],
+        "contractDependencies": [
+          10950
+        ],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 5428,
+        "linearizedBaseContracts": [
+          5428,
+          10950
+        ],
+        "name": "ITRC2612",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 5429,
+        "src": "118:37:42"
+      }
+    ],
+    "src": "33:123:42"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.0+commit.7c2e6412.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2021-12-16T04:49:26.434Z"
+}

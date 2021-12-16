@@ -17,7 +17,6 @@ import "../TRC1967/TRC1967Upgrade.sol";
  * _Available since v4.1._
  */
 abstract contract UUPSUpgradeable is TRC1967Upgrade {
-    /// @custom:oz-upgrades-unsafe-allow state-variable-immutable state-variable-assignment
     address private immutable __self = address(this);
 
     /**

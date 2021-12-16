@@ -1,0 +1,593 @@
+{
+  "contractName": "TRC165",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\nimport \"./ITRC165.sol\";\n\n/**\n * @dev Implementation of the {ITRC165} interface.\n *\n * Contracts that want to implement TRC165 should inherit from this contract and override {supportsInterface} to check\n * for the additional interface id that will be supported. For example:\n *\n * ```solidity\n * function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {\n *     return interfaceId == type(MyInterface).interfaceId || super.supportsInterface(interfaceId);\n * }\n * ```\n *\n * Alternatively, {TRC165Storage} provides an easier to use but more expensive implementation.\n */\nabstract contract TRC165 is ITRC165 {\n    /**\n     * @dev See {ITRC165-supportsInterface}.\n     */\n    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {\n        return interfaceId == type(ITRC165).interfaceId;\n    }\n}\n",
+  "sourcePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/utils/introspection/TRC165.sol",
+  "ast": {
+    "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/utils/introspection/TRC165.sol",
+    "exportedSymbols": {
+      "ITRC165": [
+        16850
+      ],
+      "TRC165": [
+        16978
+      ]
+    },
+    "id": 16979,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 16956,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:23:121"
+      },
+      {
+        "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/utils/introspection/ITRC165.sol",
+        "file": "./ITRC165.sol",
+        "id": 16957,
+        "nodeType": "ImportDirective",
+        "scope": 16979,
+        "sourceUnit": 16851,
+        "src": "58:23:121",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": true,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 16959,
+              "name": "ITRC165",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 16850,
+              "src": "688:7:121"
+            },
+            "id": 16960,
+            "nodeType": "InheritanceSpecifier",
+            "src": "688:7:121"
+          }
+        ],
+        "contractDependencies": [
+          16850
+        ],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 16958,
+          "nodeType": "StructuredDocumentation",
+          "src": "83:576:121",
+          "text": " @dev Implementation of the {ITRC165} interface.\n Contracts that want to implement TRC165 should inherit from this contract and override {supportsInterface} to check\n for the additional interface id that will be supported. For example:\n ```solidity\n function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {\n     return interfaceId == type(MyInterface).interfaceId || super.supportsInterface(interfaceId);\n }\n ```\n Alternatively, {TRC165Storage} provides an easier to use but more expensive implementation."
+        },
+        "fullyImplemented": true,
+        "id": 16978,
+        "linearizedBaseContracts": [
+          16978,
+          16850
+        ],
+        "name": "TRC165",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "baseFunctions": [
+              16849
+            ],
+            "body": {
+              "id": 16976,
+              "nodeType": "Block",
+              "src": "854:64:121",
+              "statements": [
+                {
+                  "expression": {
+                    "commonType": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    },
+                    "id": 16974,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 16969,
+                      "name": "interfaceId",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 16963,
+                      "src": "871:11:121",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes4",
+                        "typeString": "bytes4"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "expression": {
+                        "arguments": [
+                          {
+                            "id": 16971,
+                            "name": "ITRC165",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 16850,
+                            "src": "891:7:121",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_contract$_ITRC165_$16850_$",
+                              "typeString": "type(contract ITRC165)"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_type$_t_contract$_ITRC165_$16850_$",
+                              "typeString": "type(contract ITRC165)"
+                            }
+                          ],
+                          "id": 16970,
+                          "name": "type",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4294967269,
+                          "src": "886:4:121",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_metatype_pure$__$returns$__$",
+                            "typeString": "function () pure"
+                          }
+                        },
+                        "id": 16972,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "886:13:121",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_meta_type_t_contract$_ITRC165_$16850",
+                          "typeString": "type(contract ITRC165)"
+                        }
+                      },
+                      "id": 16973,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "memberName": "interfaceId",
+                      "nodeType": "MemberAccess",
+                      "src": "886:25:121",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes4",
+                        "typeString": "bytes4"
+                      }
+                    },
+                    "src": "871:40:121",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 16968,
+                  "id": 16975,
+                  "nodeType": "Return",
+                  "src": "864:47:121"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 16961,
+              "nodeType": "StructuredDocumentation",
+              "src": "702:56:121",
+              "text": " @dev See {ITRC165-supportsInterface}."
+            },
+            "functionSelector": "01ffc9a7",
+            "id": 16977,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "supportsInterface",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 16965,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "830:8:121"
+            },
+            "parameters": {
+              "id": 16964,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 16963,
+                  "mutability": "mutable",
+                  "name": "interfaceId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 16977,
+                  "src": "790:18:121",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 16962,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "790:6:121",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "789:20:121"
+            },
+            "returnParameters": {
+              "id": 16968,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 16967,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 16977,
+                  "src": "848:4:121",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 16966,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "848:4:121",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "847:6:121"
+            },
+            "scope": 16978,
+            "src": "763:155:121",
+            "stateMutability": "view",
+            "virtual": true,
+            "visibility": "public"
+          }
+        ],
+        "scope": 16979,
+        "src": "660:260:121"
+      }
+    ],
+    "src": "33:888:121"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/utils/introspection/TRC165.sol",
+    "exportedSymbols": {
+      "ITRC165": [
+        16850
+      ],
+      "TRC165": [
+        16978
+      ]
+    },
+    "id": 16979,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 16956,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:23:121"
+      },
+      {
+        "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/utils/introspection/ITRC165.sol",
+        "file": "./ITRC165.sol",
+        "id": 16957,
+        "nodeType": "ImportDirective",
+        "scope": 16979,
+        "sourceUnit": 16851,
+        "src": "58:23:121",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": true,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 16959,
+              "name": "ITRC165",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 16850,
+              "src": "688:7:121"
+            },
+            "id": 16960,
+            "nodeType": "InheritanceSpecifier",
+            "src": "688:7:121"
+          }
+        ],
+        "contractDependencies": [
+          16850
+        ],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 16958,
+          "nodeType": "StructuredDocumentation",
+          "src": "83:576:121",
+          "text": " @dev Implementation of the {ITRC165} interface.\n Contracts that want to implement TRC165 should inherit from this contract and override {supportsInterface} to check\n for the additional interface id that will be supported. For example:\n ```solidity\n function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {\n     return interfaceId == type(MyInterface).interfaceId || super.supportsInterface(interfaceId);\n }\n ```\n Alternatively, {TRC165Storage} provides an easier to use but more expensive implementation."
+        },
+        "fullyImplemented": true,
+        "id": 16978,
+        "linearizedBaseContracts": [
+          16978,
+          16850
+        ],
+        "name": "TRC165",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "baseFunctions": [
+              16849
+            ],
+            "body": {
+              "id": 16976,
+              "nodeType": "Block",
+              "src": "854:64:121",
+              "statements": [
+                {
+                  "expression": {
+                    "commonType": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    },
+                    "id": 16974,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 16969,
+                      "name": "interfaceId",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 16963,
+                      "src": "871:11:121",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes4",
+                        "typeString": "bytes4"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "expression": {
+                        "arguments": [
+                          {
+                            "id": 16971,
+                            "name": "ITRC165",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 16850,
+                            "src": "891:7:121",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_contract$_ITRC165_$16850_$",
+                              "typeString": "type(contract ITRC165)"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_type$_t_contract$_ITRC165_$16850_$",
+                              "typeString": "type(contract ITRC165)"
+                            }
+                          ],
+                          "id": 16970,
+                          "name": "type",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 4294967269,
+                          "src": "886:4:121",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_metatype_pure$__$returns$__$",
+                            "typeString": "function () pure"
+                          }
+                        },
+                        "id": 16972,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "886:13:121",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_meta_type_t_contract$_ITRC165_$16850",
+                          "typeString": "type(contract ITRC165)"
+                        }
+                      },
+                      "id": 16973,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "memberName": "interfaceId",
+                      "nodeType": "MemberAccess",
+                      "src": "886:25:121",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes4",
+                        "typeString": "bytes4"
+                      }
+                    },
+                    "src": "871:40:121",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 16968,
+                  "id": 16975,
+                  "nodeType": "Return",
+                  "src": "864:47:121"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 16961,
+              "nodeType": "StructuredDocumentation",
+              "src": "702:56:121",
+              "text": " @dev See {ITRC165-supportsInterface}."
+            },
+            "functionSelector": "01ffc9a7",
+            "id": 16977,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "supportsInterface",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 16965,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "830:8:121"
+            },
+            "parameters": {
+              "id": 16964,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 16963,
+                  "mutability": "mutable",
+                  "name": "interfaceId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 16977,
+                  "src": "790:18:121",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 16962,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "790:6:121",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "789:20:121"
+            },
+            "returnParameters": {
+              "id": 16968,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 16967,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 16977,
+                  "src": "848:4:121",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 16966,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "848:4:121",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "847:6:121"
+            },
+            "scope": 16978,
+            "src": "763:155:121",
+            "stateMutability": "view",
+            "virtual": true,
+            "visibility": "public"
+          }
+        ],
+        "scope": 16979,
+        "src": "660:260:121"
+      }
+    ],
+    "src": "33:888:121"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.0+commit.7c2e6412.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2021-12-16T04:49:26.519Z"
+}

@@ -25,7 +25,7 @@ Then, run the migration with:
       userFeePercentage: 0,
       feeLimit: 1000 * 1e6,
       fullHost: 'https://api.shasta.trongrid.io',
-      solidityNode: 'https://api.shasta.trongrid.io',
+      // solidityNode: 'https://api.shasta.trongrid.io',
       network_id: '2'
     },
     nile: {
@@ -51,10 +51,10 @@ Then, run the migration with:
   },
   // solc compiler optimize
   solc: {
-  //   optimizer: {
-  //     enabled: true,
-  //     runs: 200
-  //   },
-  //   evmVersion: 'istanbul'
+    optimizer: {
+      enabled: true,
+      runs: 200
+    },
+    evmVersion: 'istanbul'
   }
 }

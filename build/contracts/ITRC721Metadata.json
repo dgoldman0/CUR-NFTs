@@ -1,0 +1,922 @@
+{
+  "contractName": "ITRC721Metadata",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "approved",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "approved",
+          "type": "bool"
+        }
+      ],
+      "name": "ApprovalForAll",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getApproved",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        }
+      ],
+      "name": "isApprovedForAll",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "ownerOf",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "_approved",
+          "type": "bool"
+        }
+      ],
+      "name": "setApprovalForAll",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenURI",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\nimport \"../ITRC721.sol\";\n\n/**\n * @title TRC-721 Non-Fungible Token Standard, optional metadata extension\n * @dev See https://eips.ethereum.org/EIPS/eip-721\n */\ninterface ITRC721Metadata is ITRC721 {\n    /**\n     * @dev Returns the token collection name.\n     */\n    function name() external view returns (string memory);\n\n    /**\n     * @dev Returns the token collection symbol.\n     */\n    function symbol() external view returns (string memory);\n\n    /**\n     * @dev Returns the Uniform Resource Identifier (URI) for `tokenId` token.\n     */\n    function tokenURI(uint256 tokenId) external view returns (string memory);\n}\n",
+  "sourcePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC721/extensions/ITRC721Metadata.sol",
+  "ast": {
+    "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC721/extensions/ITRC721Metadata.sol",
+    "exportedSymbols": {
+      "ITRC165": [
+        16850
+      ],
+      "ITRC721": [
+        11739
+      ],
+      "ITRC721Metadata": [
+        12632
+      ]
+    },
+    "id": 12633,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12607,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:23:90"
+      },
+      {
+        "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC721/ITRC721.sol",
+        "file": "../ITRC721.sol",
+        "id": 12608,
+        "nodeType": "ImportDirective",
+        "scope": 12633,
+        "sourceUnit": 11740,
+        "src": "58:24:90",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 12610,
+              "name": "ITRC721",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 11739,
+              "src": "247:7:90"
+            },
+            "id": 12611,
+            "nodeType": "InheritanceSpecifier",
+            "src": "247:7:90"
+          }
+        ],
+        "contractDependencies": [
+          11739,
+          16850
+        ],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 12609,
+          "nodeType": "StructuredDocumentation",
+          "src": "84:133:90",
+          "text": " @title TRC-721 Non-Fungible Token Standard, optional metadata extension\n @dev See https://eips.ethereum.org/EIPS/eip-721"
+        },
+        "fullyImplemented": false,
+        "id": 12632,
+        "linearizedBaseContracts": [
+          12632,
+          11739,
+          16850
+        ],
+        "name": "ITRC721Metadata",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 12612,
+              "nodeType": "StructuredDocumentation",
+              "src": "261:58:90",
+              "text": " @dev Returns the token collection name."
+            },
+            "functionSelector": "06fdde03",
+            "id": 12617,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "name",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12613,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "337:2:90"
+            },
+            "returnParameters": {
+              "id": 12616,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12615,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12617,
+                  "src": "363:13:90",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 12614,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "363:6:90",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "362:15:90"
+            },
+            "scope": 12632,
+            "src": "324:54:90",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12618,
+              "nodeType": "StructuredDocumentation",
+              "src": "384:60:90",
+              "text": " @dev Returns the token collection symbol."
+            },
+            "functionSelector": "95d89b41",
+            "id": 12623,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "symbol",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12619,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "464:2:90"
+            },
+            "returnParameters": {
+              "id": 12622,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12621,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12623,
+                  "src": "490:13:90",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 12620,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "490:6:90",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "489:15:90"
+            },
+            "scope": 12632,
+            "src": "449:56:90",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12624,
+              "nodeType": "StructuredDocumentation",
+              "src": "511:90:90",
+              "text": " @dev Returns the Uniform Resource Identifier (URI) for `tokenId` token."
+            },
+            "functionSelector": "c87b56dd",
+            "id": 12631,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "tokenURI",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12627,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12626,
+                  "mutability": "mutable",
+                  "name": "tokenId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12631,
+                  "src": "624:15:90",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12625,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "624:7:90",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "623:17:90"
+            },
+            "returnParameters": {
+              "id": 12630,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12629,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12631,
+                  "src": "664:13:90",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 12628,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "664:6:90",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "663:15:90"
+            },
+            "scope": 12632,
+            "src": "606:73:90",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 12633,
+        "src": "218:463:90"
+      }
+    ],
+    "src": "33:649:90"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC721/extensions/ITRC721Metadata.sol",
+    "exportedSymbols": {
+      "ITRC165": [
+        16850
+      ],
+      "ITRC721": [
+        11739
+      ],
+      "ITRC721Metadata": [
+        12632
+      ]
+    },
+    "id": 12633,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12607,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:23:90"
+      },
+      {
+        "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC721/ITRC721.sol",
+        "file": "../ITRC721.sol",
+        "id": 12608,
+        "nodeType": "ImportDirective",
+        "scope": 12633,
+        "sourceUnit": 11740,
+        "src": "58:24:90",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 12610,
+              "name": "ITRC721",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 11739,
+              "src": "247:7:90"
+            },
+            "id": 12611,
+            "nodeType": "InheritanceSpecifier",
+            "src": "247:7:90"
+          }
+        ],
+        "contractDependencies": [
+          11739,
+          16850
+        ],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 12609,
+          "nodeType": "StructuredDocumentation",
+          "src": "84:133:90",
+          "text": " @title TRC-721 Non-Fungible Token Standard, optional metadata extension\n @dev See https://eips.ethereum.org/EIPS/eip-721"
+        },
+        "fullyImplemented": false,
+        "id": 12632,
+        "linearizedBaseContracts": [
+          12632,
+          11739,
+          16850
+        ],
+        "name": "ITRC721Metadata",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 12612,
+              "nodeType": "StructuredDocumentation",
+              "src": "261:58:90",
+              "text": " @dev Returns the token collection name."
+            },
+            "functionSelector": "06fdde03",
+            "id": 12617,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "name",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12613,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "337:2:90"
+            },
+            "returnParameters": {
+              "id": 12616,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12615,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12617,
+                  "src": "363:13:90",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 12614,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "363:6:90",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "362:15:90"
+            },
+            "scope": 12632,
+            "src": "324:54:90",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12618,
+              "nodeType": "StructuredDocumentation",
+              "src": "384:60:90",
+              "text": " @dev Returns the token collection symbol."
+            },
+            "functionSelector": "95d89b41",
+            "id": 12623,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "symbol",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12619,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "464:2:90"
+            },
+            "returnParameters": {
+              "id": 12622,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12621,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12623,
+                  "src": "490:13:90",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 12620,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "490:6:90",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "489:15:90"
+            },
+            "scope": 12632,
+            "src": "449:56:90",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12624,
+              "nodeType": "StructuredDocumentation",
+              "src": "511:90:90",
+              "text": " @dev Returns the Uniform Resource Identifier (URI) for `tokenId` token."
+            },
+            "functionSelector": "c87b56dd",
+            "id": 12631,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "tokenURI",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12627,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12626,
+                  "mutability": "mutable",
+                  "name": "tokenId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12631,
+                  "src": "624:15:90",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12625,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "624:7:90",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "623:17:90"
+            },
+            "returnParameters": {
+              "id": 12630,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12629,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12631,
+                  "src": "664:13:90",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 12628,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "664:6:90",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "663:15:90"
+            },
+            "scope": 12632,
+            "src": "606:73:90",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 12633,
+        "src": "218:463:90"
+      }
+    ],
+    "src": "33:649:90"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.0+commit.7c2e6412.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2021-12-16T04:49:26.481Z"
+}

@@ -511,7 +511,7 @@ contract TRC777 is Context, ITRC777, ITRC20 {
         if (implementer != address(0)) {
             ITRC777Recipient(implementer).tokensReceived(operator, from, to, amount, userData, operatorData);
         } else if (requireReceptionAck) {
-            require(!to.isContract(), "TRC777: token recipient contract has no implementer for TRC777TokensRecipient");
+            require(!Address.isContract(to), "TRC777: token recipient contract has no implementer for TRC777TokensRecipient");
         }
     }
 

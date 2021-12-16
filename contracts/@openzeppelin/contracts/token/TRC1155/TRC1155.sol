@@ -406,7 +406,7 @@ contract TRC1155 is Context, TRC165, ITRC1155, ITRC1155MetadataURI {
         uint256 amount,
         bytes memory data
     ) private {
-        if (to.isContract()) {
+        if (Address.isContract(to)) {
             try ITRC1155Receiver(to).onTRC1155Received(operator, from, id, amount, data) returns (bytes4 response) {
                 if (response != ITRC1155Receiver.onTRC1155Received.selector) {
                     revert("TRC1155: TRC1155Receiver rejected tokens");
@@ -427,7 +427,7 @@ contract TRC1155 is Context, TRC165, ITRC1155, ITRC1155MetadataURI {
         uint256[] memory amounts,
         bytes memory data
     ) private {
-        if (to.isContract()) {
+        if (Address.isContract(to)) {
             try ITRC1155Receiver(to).onTRC1155BatchReceived(operator, from, ids, amounts, data) returns (
                 bytes4 response
             ) {

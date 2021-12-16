@@ -1,0 +1,750 @@
+{
+  "contractName": "ITRC20Metadata",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\nimport \"../ITRC20.sol\";\n\n/**\n * @dev Interface for the optional metadata functions from the TRC20 standard.\n *\n * _Available since v4.1._\n */\ninterface ITRC20Metadata is ITRC20 {\n    /**\n     * @dev Returns the name of the token.\n     */\n    function name() external view returns (string memory);\n\n    /**\n     * @dev Returns the symbol of the token.\n     */\n    function symbol() external view returns (string memory);\n\n    /**\n     * @dev Returns the decimals places of the token.\n     */\n    function decimals() external view returns (uint8);\n}\n",
+  "sourcePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC20/extensions/ITRC20Metadata.sol",
+  "ast": {
+    "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC20/extensions/ITRC20Metadata.sol",
+    "exportedSymbols": {
+      "ITRC20": [
+        8874
+      ],
+      "ITRC20Metadata": [
+        9445
+      ]
+    },
+    "id": 9446,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 9422,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:23:71"
+      },
+      {
+        "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC20/ITRC20.sol",
+        "file": "../ITRC20.sol",
+        "id": 9423,
+        "nodeType": "ImportDirective",
+        "scope": 9446,
+        "sourceUnit": 8875,
+        "src": "58:23:71",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 9425,
+              "name": "ITRC20",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 8874,
+              "src": "228:6:71"
+            },
+            "id": 9426,
+            "nodeType": "InheritanceSpecifier",
+            "src": "228:6:71"
+          }
+        ],
+        "contractDependencies": [
+          8874
+        ],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 9424,
+          "nodeType": "StructuredDocumentation",
+          "src": "83:116:71",
+          "text": " @dev Interface for the optional metadata functions from the TRC20 standard.\n _Available since v4.1._"
+        },
+        "fullyImplemented": false,
+        "id": 9445,
+        "linearizedBaseContracts": [
+          9445,
+          8874
+        ],
+        "name": "ITRC20Metadata",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 9427,
+              "nodeType": "StructuredDocumentation",
+              "src": "241:54:71",
+              "text": " @dev Returns the name of the token."
+            },
+            "functionSelector": "06fdde03",
+            "id": 9432,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "name",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9428,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "313:2:71"
+            },
+            "returnParameters": {
+              "id": 9431,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9430,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9432,
+                  "src": "339:13:71",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 9429,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "339:6:71",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "338:15:71"
+            },
+            "scope": 9445,
+            "src": "300:54:71",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 9433,
+              "nodeType": "StructuredDocumentation",
+              "src": "360:56:71",
+              "text": " @dev Returns the symbol of the token."
+            },
+            "functionSelector": "95d89b41",
+            "id": 9438,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "symbol",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9434,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "436:2:71"
+            },
+            "returnParameters": {
+              "id": 9437,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9436,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9438,
+                  "src": "462:13:71",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 9435,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "462:6:71",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "461:15:71"
+            },
+            "scope": 9445,
+            "src": "421:56:71",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 9439,
+              "nodeType": "StructuredDocumentation",
+              "src": "483:65:71",
+              "text": " @dev Returns the decimals places of the token."
+            },
+            "functionSelector": "313ce567",
+            "id": 9444,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "decimals",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9440,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "570:2:71"
+            },
+            "returnParameters": {
+              "id": 9443,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9442,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9444,
+                  "src": "596:5:71",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9441,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "596:5:71",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "595:7:71"
+            },
+            "scope": 9445,
+            "src": "553:50:71",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 9446,
+        "src": "200:405:71"
+      }
+    ],
+    "src": "33:573:71"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC20/extensions/ITRC20Metadata.sol",
+    "exportedSymbols": {
+      "ITRC20": [
+        8874
+      ],
+      "ITRC20Metadata": [
+        9445
+      ]
+    },
+    "id": 9446,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 9422,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:23:71"
+      },
+      {
+        "absolutePath": "/home/swatim/TRON/CUR-NFTs/contracts/@openzeppelin/contracts/token/TRC20/ITRC20.sol",
+        "file": "../ITRC20.sol",
+        "id": 9423,
+        "nodeType": "ImportDirective",
+        "scope": 9446,
+        "sourceUnit": 8875,
+        "src": "58:23:71",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 9425,
+              "name": "ITRC20",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 8874,
+              "src": "228:6:71"
+            },
+            "id": 9426,
+            "nodeType": "InheritanceSpecifier",
+            "src": "228:6:71"
+          }
+        ],
+        "contractDependencies": [
+          8874
+        ],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 9424,
+          "nodeType": "StructuredDocumentation",
+          "src": "83:116:71",
+          "text": " @dev Interface for the optional metadata functions from the TRC20 standard.\n _Available since v4.1._"
+        },
+        "fullyImplemented": false,
+        "id": 9445,
+        "linearizedBaseContracts": [
+          9445,
+          8874
+        ],
+        "name": "ITRC20Metadata",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 9427,
+              "nodeType": "StructuredDocumentation",
+              "src": "241:54:71",
+              "text": " @dev Returns the name of the token."
+            },
+            "functionSelector": "06fdde03",
+            "id": 9432,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "name",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9428,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "313:2:71"
+            },
+            "returnParameters": {
+              "id": 9431,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9430,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9432,
+                  "src": "339:13:71",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 9429,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "339:6:71",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "338:15:71"
+            },
+            "scope": 9445,
+            "src": "300:54:71",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 9433,
+              "nodeType": "StructuredDocumentation",
+              "src": "360:56:71",
+              "text": " @dev Returns the symbol of the token."
+            },
+            "functionSelector": "95d89b41",
+            "id": 9438,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "symbol",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9434,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "436:2:71"
+            },
+            "returnParameters": {
+              "id": 9437,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9436,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9438,
+                  "src": "462:13:71",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 9435,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "462:6:71",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "461:15:71"
+            },
+            "scope": 9445,
+            "src": "421:56:71",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 9439,
+              "nodeType": "StructuredDocumentation",
+              "src": "483:65:71",
+              "text": " @dev Returns the decimals places of the token."
+            },
+            "functionSelector": "313ce567",
+            "id": 9444,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "decimals",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9440,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "570:2:71"
+            },
+            "returnParameters": {
+              "id": 9443,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9442,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9444,
+                  "src": "596:5:71",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9441,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "596:5:71",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "595:7:71"
+            },
+            "scope": 9445,
+            "src": "553:50:71",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 9446,
+        "src": "200:405:71"
+      }
+    ],
+    "src": "33:573:71"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.0+commit.7c2e6412.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2021-12-16T04:49:26.463Z"
+}
