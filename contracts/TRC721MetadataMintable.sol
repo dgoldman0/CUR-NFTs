@@ -1,5 +1,5 @@
 // // SPDX-License-Identifier: MIT
-// pragma solidity ^0.8.0;
+// pragma solidity ^0.5.0;
 
 // import "./@openzeppelin/contracts/token/TRC721/TRC721.sol";
 // import "./@openzeppelin/contracts/token/TRC721/extensions/TRC721Metadata.sol";

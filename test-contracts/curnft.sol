@@ -1,4 +1,4 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.5.0;
 
 /**
  * @dev Wrappers over Solidity's arithmetic operations with added overflow
@@ -215,7 +215,7 @@ library Roles {
         return role.bearer[account];
     }
 }
-pragma solidity ^0.8.0;
+pragma solidity ^0.5.0;
 
 /**
  * @dev Collection of functions related to the address type
@@ -1040,7 +1040,7 @@ contract ITRC721Enumerable is ITRC721 {
 
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.5.0;
 
 
 /**
@@ -1305,7 +1305,7 @@ contract TRC721Enumerable is Context, TRC165, TRC721, ITRC721Enumerable {
 
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.5.0;
 
 
 

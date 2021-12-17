@@ -1,5 +1,5 @@
 // Built in Safe Math wrapper makes things a lot easier, so I'll be sticking with 0.8+
-pragma solidity ^0.8.0;
+pragma solidity ^0.5.0;
 
 /* Base token contract for the forgable tokens and also the Arcadium Token */
 

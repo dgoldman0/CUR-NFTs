@@ -22,7 +22,7 @@
     "lite-server": "^2.3.0"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.3.3",
+    "@openzeppelin/contracts": "^2.5.1",
     "@ttcrypto/openzeppelin-tron-contracts": "^1.0.0",
     "tronweb": "^4.0.1"
   }
