@@ -9,7 +9,7 @@
 //   // deployer.link(ConvertLib, MetaCoin);
 //   // deployer.deploy(MetaCoin);
 // };
-var contract = artifacts.require("TRC1155Token");
+var contract = artifacts.require("TRC1155NftToken");
 
 module.exports = function(deployer) {
   deployer.deploy(contract);

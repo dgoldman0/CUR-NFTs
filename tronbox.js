@@ -25,7 +25,7 @@ Then, run the migration with:
       userFeePercentage: 0,
       feeLimit: 1000 * 1e6,
       fullHost: 'https://api.shasta.trongrid.io',
-      // solidityNode: 'https://api.shasta.trongrid.io',
+      solidityNode: 'https://api.shasta.trongrid.io',
       network_id: '2'
     },
     nile: {
@@ -55,6 +55,9 @@ Then, run the migration with:
       enabled: true,
       runs: 200
     },
-    evmVersion: 'istanbul'
+    tvmVersion: 'istanbul'
   }
 }
+
+
+// TRC1155 Token Address : https://shasta.tronscan.org/#/contract/TYEuesuccpPY522oQUMXixb4sKD4VTcm5L/code
