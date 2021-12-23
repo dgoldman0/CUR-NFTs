@@ -15,3 +15,14 @@ module.exports = function(deployer) {
   deployer.deploy(contract);
   console.log("deployed");
 };
+
+// FINAL Contracts:
+
+// ERC721 Contract:  TVDSEq59ZvZ3dWgTJd3RsNuG6jPBNT4d9M
+// link : https://shasta.tronscan.org/#/contract/TVDSEq59ZvZ3dWgTJd3RsNuG6jPBNT4d9M/code
+
+// ERC20 Contract: TMEn6roja4aYhVKkzFFF4aRnK5cEMe4Stp
+// link : https://shasta.tronscan.org/#/contract/TMEn6roja4aYhVKkzFFF4aRnK5cEMe4Stp/code
+
+// ERC1155 Contract: TPobc1GeG8L3QwTJn8ce6Eq8nKVFnzkbUK
+// link : https://shasta.tronscan.org/#/contract/TPobc1GeG8L3QwTJn8ce6Eq8nKVFnzkbUK/code

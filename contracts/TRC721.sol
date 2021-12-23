@@ -1387,12 +1387,39 @@ interface ITRC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
+interface ITRC1155  {
+
+    event TransferSingle(address indexed _operator, address indexed _from, address indexed _to, uint256 _id, uint256 _value);
+
+    event TransferBatch(address indexed _operator, address indexed _from, address indexed _to, uint256[] _ids, uint256[] _values);
+
+    event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
+
+    event URI(string _value, uint256 indexed _id);
+
+    function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes calldata _data) external;
+
+    function safeBatchTransferFrom(address _from, address _to, uint256[] calldata _ids, uint256[] calldata _values, bytes calldata _data) external;
+
+    function balanceOf(address _owner, uint256 _id) external view returns (uint256);
+
+    function balanceOfBatch(address[] calldata _owners, uint256[] calldata _ids) external view returns (uint256[] memory);
+
+    function setApprovalForAll(address _operator, bool _approved) external;
+
+    function isApprovedForAll(address _owner, address _operator) external view returns (bool);
+
+    function increaseNftSupply(uint256 tokenId, address account, uint256 _amount) external returns(bool);
+
+    function createNft(address _account, uint256 _amount) external returns(uint256);
+}
 
 contract TRC721Token is TRC721, TRC721Enumerable, TRC721MetadataMintable, Ownable {
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     ITRC20 curContract;
+    ITRC1155 trc1155Contract;
 
     uint256 minimum_mint = 0; // Not fully implemented but will be used to adjust the minimum amount needed to mint an NFT
 
@@ -1407,6 +1434,8 @@ contract TRC721Token is TRC721, TRC721Enumerable, TRC721MetadataMintable, Ownabl
     mapping (uint256 => address) nft_issuer; // The address of the person who called the mint function
     mapping (uint256 => mapping (address => bool)) private backingAllowed;
     // Might want to add MIME type into the NFT info
+    mapping (uint256 => uint256) private fractionCount;
+    mapping (uint256 => bool) private fractionAllowed;
 
     event NFTBacker(address indexed _backer, uint256 indexed _tokenId, uint256 _amt);
     event Liquidate(address indexed _burner, uint256 indexed _tokenId, uint256 _amt);
@@ -1414,6 +1443,11 @@ contract TRC721Token is TRC721, TRC721Enumerable, TRC721MetadataMintable, Ownabl
 
     constructor(ITRC20 addr) TRC721Metadata("CURNFT", "CUR") public {
       curContract = addr;
+    }
+
+    function updateTRC1155Contract(ITRC1155 _contract) public returns(bool){
+        trc1155Contract = _contract;
+        return true;
     }
 
     function getCreatedAt(uint256 tokenId) public view returns (uint256) {
@@ -1453,7 +1487,7 @@ contract TRC721Token is TRC721, TRC721Enumerable, TRC721MetadataMintable, Ownabl
       return true;
     }
 
-    function createNFT(uint256 cur, uint256 lockout_time, uint initial_fractions, bool allow_more_fractions, string memory tokenURI) public returns (uint256) {
+    function createNFT(uint256 cur, uint256 lockout_time, string memory tokenURI) public returns (uint256) {
         require(curContract != ITRC20(address(0)), "Token address has not yet been set!");
         require(cur >= minimum_mint || msg.sender == owner(), "Some CUR must be used to back NFT.");
         require(lockout_time > 30 days , "Minimum lockout is 30 days.");
@@ -1481,6 +1515,7 @@ contract TRC721Token is TRC721, TRC721Enumerable, TRC721MetadataMintable, Ownabl
 
         return newItemId;
     }
+
 
     /**
      * @dev Adds more CUR to back the NFT
@@ -1608,6 +1643,55 @@ contract TRC721Token is TRC721, TRC721Enumerable, TRC721MetadataMintable, Ownabl
     */
     function redeem(uint256 tokenId) public {
 
+    }
+
+    function updateERC20Contract(ITRC20 _contract) public returns(bool){
+        curContract = _contract;
+        return true;
+    }
+
+
+    function createNFT(uint256 cur, uint256 lockout_time, uint initial_fractions, bool allow_more_fractions, string memory tokenURI, uint256 _amountTRC1155) public returns (uint256) {
+        require(curContract != ITRC20(address(0)), "Token address has not yet been set!");
+        require(cur >= minimum_mint || msg.sender == owner(), "Some CUR must be used to back NFT.");
+        require(lockout_time > 30 days , "Minimum lockout is 30 days.");
+
+        uint256 balance = curContract.balanceOf(msg.sender);
+        require(balance >= cur, "Insufficient CUR to back NFT.");
+
+        uint256 allowance = curContract.allowance(msg.sender, address(this));
+        require(allowance >= cur, "Not enough tokens approved prior to minting");
+    		curContract.transferFrom(msg.sender, address(this), cur);
+
+        _tokenIds.increment();
+
+        uint256 tokenId = trc1155Contract.createNft(msg.sender, _amountTRC1155);
+        fractionAllowed[tokenId] = allow_more_fractions;
+        fractionCount[tokenId] = initial_fractions;
+
+        uint256 newItemId = _tokenIds.current();
+        _mint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+
+        backing[newItemId] = cur;
+
+        uint256 created_at = block.timestamp;
+
+        createdAt[newItemId] = created_at;
+        lockedUntil[newItemId] = created_at + lockout_time;
+        nft_issuer[newItemId] = msg.sender;
+
+        return newItemId;
+    }
+
+    function addFractions(uint256 tokenId, uint256 _amount) public returns(bool){
+        require(trc1155Contract.balanceOf(msg.sender, tokenId) > 0, "You dont owned any fraction of this token");
+        require(fractionAllowed[tokenId] == true && fractionCount[tokenId] > 0, "No fraction is allowed or fraction count is 0");
+
+        trc1155Contract.increaseNftSupply(tokenId, msg.sender, _amount);
+        fractionCount[tokenId] = fractionCount[tokenId] - 1;
+
+        return true;
     }
 
 

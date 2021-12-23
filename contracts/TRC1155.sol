@@ -22,6 +22,10 @@ interface ITRC1155  {
     function setApprovalForAll(address _operator, bool _approved) external;
 
     function isApprovedForAll(address _owner, address _operator) external view returns (bool);
+
+    function increaseNftSupply(uint256 tokenId, address account, uint256 _amount) external returns(bool);
+
+    function createNft(address _account, uint256 _amount) external returns(uint256);
 }
 
 
@@ -192,7 +196,7 @@ contract TRC1155 is Context, ITRC1155, ITRC1155MetadataURI {
     using Address for address;
 
     // Mapping from token ID to account balances
-    mapping(uint256 => mapping(address => uint256)) private _balances;
+    mapping(uint256 => mapping(address => uint256)) internal _balances;
 
     // Mapping from account to operator approvals
     mapping(address => mapping(address => bool)) private _operatorApprovals;
@@ -605,16 +609,30 @@ contract TRC1155 is Context, ITRC1155, ITRC1155MetadataURI {
 contract TRC1155NftToken is TRC1155, Ownable {
     uint256 public tokenCounter;
     uint private newItem;
-    constructor() public TRC1155("https://opensea-creatures-api.herokuapp.com/api/creature/"){
+    address public TRC721Contract;
+
+    constructor(address _contractAddress) public TRC1155("https://opensea-creatures-api.herokuapp.com/api/creature/"){
         tokenCounter = 1;
+        TRC721Contract = _contractAddress;
     }
 
-    function createNft(string memory _url, uint256 _amount) public returns(uint256){
+    function updateERC721Contract(address _contract) public returns(bool){
+        TRC721Contract = _contract;
+        return true;
+    }
+
+    function createNft(address _account, uint256 _amount) public returns(uint256){
         newItem = tokenCounter;
-        _mint(msg.sender, newItem, _amount, "");
-        _setURI(_url);
+        _mint(_account, newItem, _amount, "");
         tokenCounter = tokenCounter + 1;
         return newItem;
     }
+
+    function increaseNftSupply(uint256 tokenId, address account, uint256 _amount) public returns(bool){
+        require(TRC721Contract == msg.sender, "Method can only be called by ERC721 contract");
+        _balances[tokenId][account] += _amount;
+        return true;
+    }
+
 
 }
