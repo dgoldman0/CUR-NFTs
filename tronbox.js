@@ -21,7 +21,7 @@ Then, run the migration with:
       network_id: '1'
     },
     shasta: {
-      privateKey: '34bbaec2190e433bdeb9c1fbd43edf4178382fc9c6783e8220d853ad1702ed97',
+      privateKey: '',
       userFeePercentage: 0,
       feeLimit: 1000 * 1e6,
       fullHost: 'https://api.shasta.trongrid.io',
@@ -29,7 +29,7 @@ Then, run the migration with:
       network_id: '2'
     },
     nile: {
-      privateKey: '34bbaec2190e433bdeb9c1fbd43edf4178382fc9c6783e8220d853ad1702ed97',
+      privateKey: '',
       userFeePercentage: 100,
       feeLimit: 100000,
       fullHost: 'https://api.nileex.io',
@@ -37,7 +37,7 @@ Then, run the migration with:
     },
     development: {
       // For trontools/quickstart docker image
-      privateKey: 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0',
+      privateKey: '',
       userFeePercentage: 0,
       feeLimit: 1000 * 1e6,
       fullHost: 'http://127.0.0.1:' + port,
