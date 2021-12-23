@@ -615,12 +615,14 @@ contract TRC1155NftToken is TRC1155, Ownable {
         tokenCounter = 1;
         TRC721Contract = _contractAddress;
     }
-
-    function updateERC721Contract(address _contract) public returns(bool){
+    
+    // Upadate trc721 contract
+    function updateTRC721Contract(address _contract) public returns(bool){
         TRC721Contract = _contract;
         return true;
     }
 
+    // minting erc721 token
     function createNft(address _account, uint256 _amount) public returns(uint256){
         newItem = tokenCounter;
         _mint(_account, newItem, _amount, "");
@@ -628,6 +630,7 @@ contract TRC1155NftToken is TRC1155, Ownable {
         return newItem;
     }
 
+    // increases the supply of token id 
     function increaseNftSupply(uint256 tokenId, address account, uint256 _amount) public returns(bool){
         require(TRC721Contract == msg.sender, "Method can only be called by ERC721 contract");
         _balances[tokenId][account] += _amount;

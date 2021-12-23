@@ -1644,13 +1644,14 @@ contract TRC721Token is TRC721, TRC721Enumerable, TRC721MetadataMintable, Ownabl
     function redeem(uint256 tokenId) public {
 
     }
-
-    function updateERC20Contract(ITRC20 _contract) public returns(bool){
+    
+    // can update TRC20 contract address
+    function updateTRC20Contract(ITRC20 _contract) public returns(bool){
         curContract = _contract;
         return true;
     }
 
-
+    // it mints both trc 1155 and trc721 token and backs nft with cur tokens
     function createNFT(uint256 cur, uint256 lockout_time, uint initial_fractions, bool allow_more_fractions, string memory tokenURI, uint256 _amountTRC1155) public returns (uint256) {
         require(curContract != ITRC20(address(0)), "Token address has not yet been set!");
         require(cur >= minimum_mint || msg.sender == owner(), "Some CUR must be used to back NFT.");
