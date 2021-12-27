@@ -108,8 +108,11 @@ contract CURNFT is TRC1155, Owned {
     total_fractions[tokenid] -= fractions;
 
     // Adjust backing to take account the amount burned: Will this ever throw an exception for going below 0?
-    backed[tokenid] -= b_value / cur_contract.balanceOf(address(this));
+    // This function probably doesn't work as I want it to yet.
+
+    backed[tokenid] -= (b_value * burnValue(tokenid, total_fractions[tokenid])) / cur_contract.balanceOf(address(this));
 
     cur_contract.transfer(msg.sender, b_value);
+    return b_value;
   }
 }
