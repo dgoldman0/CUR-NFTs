@@ -50,7 +50,7 @@ contract Owned {
   }
 }
 
-contract ForgableToken is Owned {
+interface ForgableToken is Owned {
 /// @return total amount of tokens
   function totalSupply() public view returns (uint256 supply) {}
   /// @param _owner The address from which the balance will be retrieved
