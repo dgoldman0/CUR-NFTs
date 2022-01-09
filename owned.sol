@@ -5,7 +5,8 @@ pragma solidity ^0.8.0;
 contract Owned {
   address public owner;
   address public oldOwner;
-  uint public tokenId = 1002567;
+  uint public tokenId = 1001108; // Make sure to change this back before going live!
+//  uint public tokenId = 1002567;
   uint lastChangedOwnerAt;
   constructor() {
     owner = msg.sender;
