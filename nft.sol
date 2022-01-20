@@ -8,6 +8,7 @@ import 'itrc20.sol';
 
 contract CURNFT is TRC1155, Owned {
   ITRC20 cur_contract;
+  // Add feature to also mint some for a DAO contract controllable of course by the title system
 
   uint256 next_tokenID = 0;
 
@@ -49,14 +50,15 @@ contract CURNFT is TRC1155, Owned {
     totalBacked += amt;
   }
 
-  function createNFT(uint256 initial_backing, uint256 initial_fractions, bool allow_fractions) public returns (uint256 id) {
-    require(address(cur_contract) != address(0));
-
+  // Adjust so the new fractions can be distributed to a different address
+  function createNFT(uint256 initial_backing, uint256 initial_fractions, bool allow_fractions, address receiver_address) public returns (uint256 id) {
+    require(address(cur_contract) != address(0), "Token contract not set.");
+    require(receiver_address != address(0), "Will not mint to black hole address.");
     allow_more_fractions[next_tokenID] = allow_fractions;
 
     _injectCUR(next_tokenID, initial_backing);
 
-    _mint(msg.sender, next_tokenID, initial_fractions, "");
+    _mint(receiver_address, next_tokenID, initial_fractions, "");
     total_fractions[next_tokenID] = initial_fractions;
 
     next_tokenID++;
