@@ -6,6 +6,9 @@ import 'owned.sol';
 import 'trc1155.sol';
 import 'itrc20.sol';
 
+/// @dev This contract is going to need major rework.
+/// @dev I might go back to using a dual 721/1155
+/// @dev This way we can have an actual "owner" as well.
 contract CURNFT is TRC1155, Owned {
   ITRC20 cur_contract;
   // Add feature to also mint some for a DAO contract controllable of course by the title system

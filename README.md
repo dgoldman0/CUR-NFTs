@@ -4,11 +4,11 @@ Project Curate is a branch of the World Builder Foundation's ecosystem. It seeks
 
 ## Media NFTs
 
-NFTs, or non-fungible tokens, are a fast growing asset class. They are unique identifiers that can be held and traded on a blockchain. Since their initial development, some have started to create NFTs that "represent" media, such as pieces of art.
+NFTs, or non-fungible tokens, are a fast growing asset class. They are unique identifiers that can be held and traded on a blockchain. Since their initial development, some have started to create NFTs that "represent" media, such as pieces of art. These NFTs are certificates of authenticty, but the first generation of media NFTs lacked more function. CUR-NFT is going to change that.
 
 ### Value
 
-Some of these NFTs have sold for a lot of money. However, an NFT is not a piece of media, or even a file. It is a mere number which can be linked anything off chain. NFTs do not do anything to affect the physical world, and generally have no connection to it, unless the NFT represents a real world piece of art, which is maintained by a trusted third party. However, there are still a few sources of value that can drive prices of NFTs in an organic way.
+Many of the existing media NFTs have sold for a lot of money. However, an NFT is not a piece of media, or even a file. It is a mere number which can be linked anything off chain. NFTs do not do anything to affect the physical world, and generally have no connection to it, unless the NFT represents a real world piece of art, which is maintained by a trusted third party. However, there are still a few sources of value that can drive prices of NFTs in an organic way.
 
 #### Famous Creators
 
@@ -32,7 +32,7 @@ The minimum lockout times for staking, as well as penalties for short lockout pe
 
 ### Fractional Ownership
 
-NFTs are undergoing a transformation. Thanks to newer token standards, an NFT can now have its own associated tokens. These tokens can be used to represent fractional ownership or control. The NFT holder can issue more tokens and distribute them as they please. To give function to these tokens, the NFT contract will utilize the tokens as part of the economic system as described in section on loans. ***For projects that require a fixed token supply, an initial mint followed by no more allowed minting is also an option.***
+NFTs are undergoing a transformation. Thanks to newer token standards, an NFT can now have its own associated tokens. These tokens can be used to represent fractional ownership or control. A user can obtain a fraction of the NFT transferring CUR, in proportion to the desired amount of fractions. ***For projects that require a fixed token supply, an initial mint followed by no more allowed minting is also an option.***
 
 ### Advanced Statistics
 
@@ -61,10 +61,10 @@ Some people have an unusual sensory condition where normal sensory input is proc
 
 World Builder focuses on creating assets that have significant real world value. We do so by networking with partners to create uses for our crypoassets, turning them into true forms of money. Because CUR is focused on the topic of art and curation of information, we will be networking with services that sell art related supplies, print on demand services, content preservation services, and more.
 
-### NFT Secured Loans
+### Initial Sale Benefit
 
-CUR loans are built right into the NFT contract. Because the NFT is backed with CUR, it can be borrowed against, rather than simply taken through burning. Once a loan is taken however, the user cannot transfer the NFT, burn it, or issue more fractions until the loan is paid back. There is no interest on these loans, and instead 20% of the amount being borrowed is transferred to the fraction holders. When the user pays back the loan, the NFT lockout will be released.
-
+While the NFT is fractionalized, this fractional ownership is different from the ownership of the NFT itself. The funds used for the initial buy of an NFT, sold through our marketplace, will go to backing the NFT. A portion of additional sales will also go towards backing. In this way, the NFT will gain initial value when sold and will gain additional value through each additional sale. That value will become accessible to the fraction holders. This system makes certain royalties easy to track, as the artist can hold a portion of fractions.
+ 
 ### Artist Profiles & Licensing
 
 One issue with NFTs is licensing and copyright. First and foremost, **CUR NFT will never support the unauthorized use of media in the creation of NFTs.** We also want to make it easier to show authorization. The exact details are still being worked out by the team. And this section will be expanded in time.
